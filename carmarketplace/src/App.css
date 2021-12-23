@@ -1,0 +1,124 @@
+.App {
+  text-align: center;
+  background: #000000;
+  background: -webkit-linear-gradient(to right, #434343, #000000);
+  background: linear-gradient(to right, #434343, #000000);
+  color: white;
+}
+
+.header{
+  background-color: black;
+  color: white;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  
+}
+.header-left > div:hover{
+  text-shadow: 0 0 5px white,
+  0 0 10px #00a2ff,
+  0 0 20px #00a2ff,
+  0 0 30px #00a2ff,
+  0 0 40px #00a2ff
+}
+
+.navbar > div:hover{
+  text-shadow: 0 0 5px white,
+  0 0 10px #00a2ff,
+  0 0 20px #00a2ff,
+  0 0 30px #00a2ff,
+  0 0 40px #00a2ff
+}
+
+
+.header-left{
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: large;
+}
+
+.logo{
+  width: 120px;
+  height: 70px;
+  background-image: url(black-logo.jpg);
+  background-size: 120px 70px;
+}
+.navbar{
+  display: flex;
+  justify-content: space-around;
+  width: 200px;
+  align-items: center;
+  gap: 10px;
+}
+
+.wrapper{
+  min-height: 100%;
+}
+
+.content{
+  display: flex;
+  width: 66%;
+  border: 2px solid black;
+}
+
+.cont{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.filters{
+  display: flex;
+  justify-content: space-around;
+}
+
+.footer{
+  height: 50px;
+  background-color: black;
+}
+
+.offer{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid white;
+  margin-bottom: 5px;
+  width: 100%;
+  align-items: flex-end;
+  background: #232526;
+  background: -webkit-linear-gradient(to right, #414345, #232526);
+  background: linear-gradient(to right, #414345, #232526);
+}
+
+.offer-container{
+  width: 100%;
+}
+
+.offer-photo{
+  width: 300px;
+}
+
+.offer-details{
+  width: 66%;
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.car-title{
+  padding: 3px;
+  font-weight: 600;
+}
+
+.car-data{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 65%;
+}
+.price{
+  font-size: 20px;
+  font-weight: 600;
+  margin-right: 5px;
+}

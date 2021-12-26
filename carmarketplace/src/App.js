@@ -1,43 +1,57 @@
 import './App.css';
 import CarsList from './CarsList';
+import UsersList from './UsersList';
+import UserDetails from './UserDetails';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <div className='wrapper'>
-        <header className="header">
-          <div className='header-left'>
-            <div className='logo'></div>
-            <div className='market'>
-              CarMarket
+      <Router>
+        <Switch>
+        <div className='wrapper'>
+          <header className="header">
+            <div className='header-left'>
+              <div className='logo'></div>
+              <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div className='market'>
+                CarMarket
+              </div></Link>
             </div>
-          </div>
-          
-          <div className='navbar'>
-            <div>Cars</div>
-            <div>Sellers</div> 
-            <div>Home</div>
-          </div>
-        </header>
-        <div className='cont'>
-          <div className="filters">
-            <div>
-              Filters
+            
+            <div className='navbar'>
+              <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div>Cars</div></Link>
+              <Link to="/sellers" style={{textDecoration: 'none',color: "white"}}><div>Sellers</div></Link>
+              <div>Home</div>
             </div>
-            <div>
-              Sort
+          </header>
+          <div className='cont'>
+            <div className='content'>
+            <Redirect exact from="/" to="/cars"/>
+            <Route path="/cars" exact>
+              <CarsList/>
+            </Route>
+            <Route path="/sellers" exact>
+              <UsersList/>
+            </Route>
+            <Route path="/sellers/:id" exact>
+              <UserDetails/>
+            </Route>
             </div>
-          </div>
-          <div className='content'>
-            <CarsList/>
           </div>
         </div>
-      </div>
-      <footer className="footer">
-        <div>
-          Tel: 999888777
-        </div>
-      </footer>
+        <footer className="footer">
+          <div>
+            Tel: 999888777
+          </div>
+        </footer>
+        </Switch>
+      </Router>
     </div>
   );
 }

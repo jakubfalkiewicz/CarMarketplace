@@ -7,11 +7,13 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import carsReducer from './ducks/cars/reducers';
+import usersReducer from './ducks/users/reducers'
 
 const store = createStore(
   combineReducers(
     {
       cars: carsReducer,
+      users: usersReducer
     }
   ), applyMiddleware(thunk));
 

@@ -2,12 +2,13 @@
 import './App.css';
 import { connect } from "react-redux";
 // import { getUserList } from "../actions/UserActions";
-import { filterCarsList, getCarsList } from "./ducks/cars/actions";
+import { filterCarsList, sortCarsList } from "./ducks/cars/actions";
 import { ErrorMessage, Field, Form, Formik} from "formik";
+import {Link} from "react-router-dom";
 import * as Yup from 'yup';
 import { useEffect, useState } from "react";
 
-const CarsList = ({cars, filterCarsList, getCarsList} ) => {
+const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
 
     const makeSet = new Set(cars.map(car => car.make))
     // const values = makeSet.map(el => el.value)
@@ -56,7 +57,7 @@ const CarsList = ({cars, filterCarsList, getCarsList} ) => {
                             max_horse_power:''}}
                         validationSchema={filterSchema}
                         enableReinitialize={true}
-                        onSubmit={(values) => {getCarsList(values)}}
+                        onSubmit={(values) => {filterCarsList(values)}}
                         >
                         <Form>
                             <div className='car-filters'>
@@ -113,7 +114,7 @@ const CarsList = ({cars, filterCarsList, getCarsList} ) => {
                                             Wheel drive
                                             <div>
                                                 <Field name="wheel_drive" as="select">
-                                                    <option disabled selected>Wheel drive</option>
+                                                    <option disabled>Wheel drive</option>
                                                     <option value="">None</option>
                                                     <option value="Front">Front wheel drive</option>
                                                     <option value="Rear">Rear wheel drive</option>
@@ -125,7 +126,7 @@ const CarsList = ({cars, filterCarsList, getCarsList} ) => {
                                             Gearbox
                                             <div>
                                                 <Field name="gearbox" as="select">
-                                                    <option disabled selected>Gearbox</option>
+                                                    <option disabled>Gearbox</option>
                                                     <option value="">None</option>
                                                     <option value="Manual">Manual</option>
                                                     <option value="Automatic">Automatic</option>
@@ -136,7 +137,7 @@ const CarsList = ({cars, filterCarsList, getCarsList} ) => {
                                             Fuel
                                             <div>
                                                 <Field name="fuel_type" as="select">
-                                                    <option disabled selected>Fuel</option>
+                                                    <option disabled>Fuel</option>
                                                     <option value="">None</option>
                                                     <option value="Petrol">Petrol</option>
                                                     <option value="Petrol/LPG">Petrol/LPG</option>
@@ -154,9 +155,43 @@ const CarsList = ({cars, filterCarsList, getCarsList} ) => {
                             </div>
                         </Form>
                     </Formik>
+                    <Formik
+                        initialValues= {{
+                            filter: ''
+                        }}
+                        enableReinitialize={true}
+                        onSubmit={(values) => {sortCarsList(values)}}
+                        >
+                        <Form>
+                            <div className='car-filters'>
+                                <h2>Sort: </h2>
+                                <div className="fields-container">
+                                    <div className="formik-select">
+                                        Sort
+                                        <div>
+                                            <Field name="filter" as="select">
+                                                <option value="">A-Z</option>
+                                                <option value="price_asc">Price asc.</option>
+                                                <option value="price_desc">Price desc.</option>
+                                                <option value="mileage_asc">Mileage asc.</option>
+                                                <option value="mileage_desc">Mileage desc.</option>
+                                                <option value="power_asc">Power asc.</option>
+                                                <option value="power_desc">Power desc.</option>
+                                            </Field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit">
+                                    Submit
+                                </button>
+                            </div>
+                        </Form>
+                    </Formik>
                 <h1> Cars List </h1>
                 {cars && cars.map(car => (
+                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}}>
                     <div className="offer">
+                        
                         <div key={car.id} className="offer-photo">
                             <div className="car-title">
                                 {car.title} 
@@ -164,18 +199,23 @@ const CarsList = ({cars, filterCarsList, getCarsList} ) => {
                             <div className='photo'>
                                 <img className="car-img" src={car.image_url} alt="car"></img>
                             </div>
-                            
                         </div>
-                        <div className="offer-details">
-                            <div className="car-data">
-                                <div>{car.engine_size}cm³ | {car.horse_power}hp | {car.mileage} km | {car.production_year}yr </div>
-                                <div>{car.wheel_drive} wheel-drive | {car.gearbox} | {car.fuel_type} </div>
+                        <div className="spec-container-list">
+                            <div className="car-spec">
+                                <div>Year<div> {car.production_year} </div></div>
+                                <div>Mileage<div> {car.mileage}km </div></div>
+                                <div>Fuel<div> {car.fuel_type} </div></div>
+                                <div>Gearbox<div> {car.gearbox} </div></div>
+                                <div>Power<div>{car.horse_power}HP </div></div>
                             </div>
                             <div className="price">
-                                {car.price} zł
+                                {car.price}PLN
                             </div>
                         </div>
-                    </div>))}
+                       
+                    </div>
+                    </Link>))}
+                    <Link to={'/cars/addOffer'}><button>ADD</button></Link>
                     <footer className="footer">
                         <div>
                             Tel: 999888777
@@ -194,7 +234,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     filterCarsList,
-    getCarsList
+    sortCarsList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarsList)

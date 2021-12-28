@@ -3,7 +3,7 @@ import types from "./types"
 const usersReducer = (state = initialState, action) => {
     switch(action.type) {
 		case types.USER_LIST_FILTER:
-			return action.payload
+			return [...action.payload]
         case types.USER_CREATE:
             return [...state,action.payload]
         case types.USER_DELETE:
@@ -16,7 +16,7 @@ const usersReducer = (state = initialState, action) => {
 const initialState = 
 [
 	{
-		"id":"fb0baa8c-e63b-4108-ad96-eeefb4292c86",
+		"id":2,
 		"first_name":"Paweł",
 		"last_name":"Jumper",
 		"mail":"pawelj@example.com",
@@ -24,7 +24,7 @@ const initialState =
 		"city":"Gdańsk"
 	},
 	{
-		"id":"5508763b-a9ff-49a8-b65b-52bd05344d0b",
+		"id":3,
 		"first_name":"Jan",
 		"last_name":"Kowalski",
 		"mail":"kowalskij@example.com",
@@ -32,7 +32,7 @@ const initialState =
 		"city":"Gdynia"
 	},
 	{
-		"id":"345670f4-f05b-475c-884a-50e8ebe31182",
+		"id":4,
 		"first_name":"Anna",
 		"last_name":"Nowak",
 		"mail":"annaj@example.com",
@@ -40,7 +40,7 @@ const initialState =
 		"city":"Sopot"
 	},
 	{
-		"id":"9f58e6c0-74d5-42cc-9f52-5acdea16ba52",
+		"id":5,
 		"first_name":"Jamal",
 		"last_name":"Johnson",
 		"mail":"jamalj@example.com",
@@ -48,7 +48,7 @@ const initialState =
 		"city":"Wejcherowo"
 	},
 	{
-		"id":"34242842-1b3e-4d9c-8cb6-98f87a66dc89",
+		"id":6,
 		"first_name":"Siergiej",
 		"last_name":"Yarmolenko",
 		"mail":"siergiejj@example.com",

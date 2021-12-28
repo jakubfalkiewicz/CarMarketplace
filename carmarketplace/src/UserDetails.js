@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
 const UserDetails = ({user, cars}, props) => {
+    console.log(user)
+    console.log(cars)
     return  (
         <div  >
-            <div className="details-container">
+            <div className="user-details-container">
                 <h2>Seller's Info:</h2>
                 {user.map(el =>
                 <div className="user-info">
@@ -23,14 +25,14 @@ const UserDetails = ({user, cars}, props) => {
                         {el.city}
                         </div>
                     </div>
-                    <div>
-                        <div><button> Add offer</button></div>
-                    </div>
                     
                 </div>)}
                 <h2>Offers:</h2>
+                <div className="user-offers">
                 {cars && cars.map(car => (
+                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}}>
                     <div className="offer">
+                        
                         <div key={car.id} className="offer-photo">
                             <div className="car-title">
                                 {car.title} 
@@ -38,18 +40,27 @@ const UserDetails = ({user, cars}, props) => {
                             <div className='photo'>
                                 <img className="car-img" src={car.image_url} alt="car"></img>
                             </div>
-                            
                         </div>
-                        <div className="offer-details">
-                            <div className="car-data">
-                                <div>{car.engine_size}cm³ | {car.horse_power}hp | {car.mileage} km | {car.production_year}yr </div>
-                                <div>{car.wheel_drive} wheel-drive | {car.gearbox} | {car.fuel_type} </div>
+                        <div className="spec-container-list">
+                            <div className="car-spec">
+                                <div>Year<div> {car.production_year} </div></div>
+                                <div>Mileage<div> {car.mileage}km </div></div>
+                                <div>Fuel<div> {car.fuel_type} </div></div>
+                                <div>Gearbox<div> {car.gearbox} </div></div>
                             </div>
                             <div className="price">
-                                {car.price} zł
+                                {car.price}PLN
                             </div>
                         </div>
-                    </div>))}
+                       
+                    </div>
+                    </Link>
+                    ))}
+
+                </div>
+                <div>
+                <Link to={`/sellers/${user[0].id}/addOffer`}><button>ADD</button></Link>
+                </div>
             </div>
         </div>
         
@@ -57,7 +68,8 @@ const UserDetails = ({user, cars}, props) => {
 }
 
 const mapStateToProps = (state,props) => {
-    const id = props.match.params.id
+    const id = parseInt(props.match.params.id)
+    console.log(state.cars)
     const user = state.users.filter(user => user.id === id)
     const cars = state.cars.filter(car => car.owner_id === id)
     return {

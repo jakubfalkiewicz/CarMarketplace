@@ -6,9 +6,12 @@ import { createCar } from "./ducks/cars/actions";
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 
-const CarForm = ({seller, createCar},props) => {
+const CarCreate = ({seller, createCar},props) => {
 
-    
+    const handleSubnit = (values) => {
+        createCar(values);
+        window.history.back()
+    }
 
     const userSchema = Yup.object().shape({
         title: Yup.string().max(30, 'Title cannot have more than 30 letters!').required('Title required!'),
@@ -52,7 +55,7 @@ const CarForm = ({seller, createCar},props) => {
                             owner_id: seller[0].id
                         }}
                         validationSchema={userSchema}
-                        onSubmit={(values) => createCar(values)}
+                        onSubmit={(values) => {handleSubnit(values)}}
                         enableReinitialize={true}>
                         <Form>
                             <div className="car-form">
@@ -129,7 +132,7 @@ const CarForm = ({seller, createCar},props) => {
                                 </div>
                                 <div>
                                     <div>Vin</div>
-                                    <Field className="form-input" name="vin" type="text"  minlength="17" maxlength="17" placeholder="Vin"/>
+                                    <Field className="form-input" name="vin" type="text"  minLength="17" maxlength="17" placeholder="Vin"/>
                                     <ErrorMessage className="error-message" name="vin" component="div"/>
                                 </div>
                                 <div>
@@ -171,4 +174,4 @@ const mapDispatchToProps = {
 };
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarCreate));

@@ -13,7 +13,7 @@ const UsersList = ({users, filterUsersList, getUsersList} ) => {
     console.log(users)
     
     return (
-        <div>
+        <div className='user-list'>
             <h1> Sellers List </h1>
             <div className='user-container'>
             {users && users.map(user => (
@@ -21,11 +21,6 @@ const UsersList = ({users, filterUsersList, getUsersList} ) => {
                     <Link to={`/sellers/${user.id}`} style={{textDecoration: 'none',color: "white"}}><div>Name: {user.first_name} {user.last_name} </div><div>Phone: {user.phone}</div><div>Email: {user.mail}</div><div>City: {user.city}</div></Link>
                 </div>))}
             </div>
-            <footer className="footer">
-                <div>
-                    Tel: 999888777
-                </div>
-            </footer>
         </div>
     )
 }

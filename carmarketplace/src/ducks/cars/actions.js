@@ -16,7 +16,12 @@ export const createCarAction = (car) => ({
     payload: car
 });
 
-export const deleteCar = (car) => ({
+export const editCarAction = (car) => ({
+    type: types.CAR_EDIT,
+    payload: car
+});
+
+export const deleteCarAction = (car) => ({
     type: types.CAR_DELETE,
     payload: car
 });
@@ -33,12 +38,35 @@ export const createCar = (car) => {
     }
 }
 
+export const editCar = (car) => {
+    return async dispatch => {
+        axios({
+            method: 'put',
+            url: `http://localhost:5000/api/cars/${car.id}`,
+            data: car,
+            }).then((response) => {
+                dispatch(editCarAction(response.data)); console.log(response)
+            }).catch((error) => console.log(error));
+    }
+}
+
+export const deleteCar = (car) => {
+    console.log("DELETING")
+    console.log(car.id)
+    return async dispatch => {
+        console.log("AXIOS")
+        await axios.delete(`http://localhost:5000/api/cars/${car.id}`)
+        .then((response) => {dispatch(deleteCarAction(response.data)); console.log(response)})
+        .catch((error) => console.log(error))
+    }
+}
+
 export const filterCarsList = (filters) => {
-    console.log(filters.gearbox)
-    console.log(filters.wheel_drive)
-    console.log(filters.fuel_type)
-    console.log(filters.min_price)
-    console.log(filters.max_price)
+    // console.log(filters.gearbox)
+    // console.log(filters.wheel_drive)
+    // console.log(filters.fuel_type)
+    // console.log(filters.min_price)
+    // console.log(filters.max_price)
     return async dispatch => {
         const response = await axios.get('http://localhost:5000/api/cars/');
         const cars = response.data
@@ -51,10 +79,12 @@ export const filterCarsList = (filters) => {
 }
 
 export const sortCarsList = (filter) => {
+    console.log(filter)
     return async dispatch => {
-        const response = await axios.get('http://localhost:5000/api/cars/');
-        const cars = response.data
+        // const response = await axios.get('http://localhost:5000/api/cars/');
+        const cars = filter.store
         console.log(cars)
+        // function byTitle(a, b) {return a.title. - b.title}
         function priceDesc(a, b) {return b.price - a.price}
         function priceAsc(a, b) {return a.price - b.price}
         function mileageDesc(a, b) {return b.mileage - a.mileage}
@@ -68,8 +98,10 @@ export const sortCarsList = (filter) => {
             if (filter.filter === "mileage_desc"){cars.sort(mileageDesc)}
             if (filter.filter === "power_asc"){cars.sort(powerAsc)}
             if (filter.filter === "power_desc"){cars.sort(powerDesc)}
+            if (filter.filter === "title"){cars.sort((a, b) => a.title.localeCompare(b.title))} 
         }
         filtered(filter)
+        //IF cars IS EMPTY, AXIOS GET CARS !!! 
         console.log(cars)
         dispatch(sortCarsListAction(cars))
     }

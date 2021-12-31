@@ -1,7 +1,6 @@
 import types from "./types"
 
 const carsReducer = (state = initialState, action) => {
-	console.log('CAR REDUCER')
     switch(action.type) {
 		case types.CAR_LIST_SORT:
 			return [...action.payload]
@@ -9,8 +8,10 @@ const carsReducer = (state = initialState, action) => {
 			return [...action.payload]
         case types.CAR_CREATE:
             return [...state,action.payload]
+		case types.CAR_EDIT:
+			return [...state.filter(car => car.id !== action.payload.id), action.payload]
         case types.CAR_DELETE:
-            return [...state.filter(el => el.id !== action.payload.id)]
+            return [...action.payload]
         default:
             return state
     }
@@ -257,6 +258,24 @@ const initialState = [
 		"image_url": "https://thumbs.img-sprzedajemy.pl/1000x901c/c3/ee/4b/sprzedamzamienie-audi-a8l-d2-42-lpg-527116840.jpg",
 		"description": "Very comfy limousine for long trips. Recently replaced pneumatic suspension and oils",
 		"owner_id":2
+	},
+	{
+		"id": 16,
+		"title": "Skoda Octavia 140HP TDi sedan",
+		"make": "Skoda",
+		"model": "Octavia",
+		"price": 11499,
+		"production_year": 2005,
+		"mileage": 339000,
+		"fuel_type": "Diesel",
+		"engine_size": 1968,
+		"horse_power": 140,
+		"wheel_drive": "Front",
+		"gearbox": "Manual",
+		"vin": "177823698dbvbvbve",
+		"image_url": "https://www.autocentrum.pl/ac-file/article/5dcd1d7d583a0f4d75292394.jpg",
+		"description": "Very reliable car. Nothing has broken since last year. Brakes and camshaft were replaced 3 years ago",
+		"owner_id": 2
 	}
 ]
 

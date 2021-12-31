@@ -6,11 +6,12 @@ import { filterCarsList, sortCarsList } from "./ducks/cars/actions";
 import { ErrorMessage, Field, Form, Formik} from "formik";
 import {Link} from "react-router-dom";
 import * as Yup from 'yup';
+import axios from 'axios';
 import { useEffect, useState } from "react";
 
-const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
-
-    const makeSet = new Set(cars.map(car => car.make))
+const CarsList = ({cars, sellers, filterCarsList, sortCarsList} ) => {
+        
+    // const makeSet = new Set(cars.map(car => car.make))
     // const values = makeSet.map(el => el.value)
     // console.log(makeSet)
     // console.log(values)
@@ -157,7 +158,8 @@ const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
                     </Formik>
                     <Formik
                         initialValues= {{
-                            filter: ''
+                            filter: '',
+                            store: cars
                         }}
                         enableReinitialize={true}
                         onSubmit={(values) => {sortCarsList(values)}}
@@ -170,7 +172,7 @@ const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
                                         Sort
                                         <div>
                                             <Field name="filter" as="select">
-                                                <option value="">A-Z</option>
+                                                <option value="title">A-Z</option>
                                                 <option value="price_asc">Price asc.</option>
                                                 <option value="price_desc">Price desc.</option>
                                                 <option value="mileage_asc">Mileage asc.</option>
@@ -190,7 +192,7 @@ const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
                 <h1> Cars List </h1>
                 {cars && cars.map(car => (
                     <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}}>
-                    <div className="offer">
+                    <div key={car.id} className="offer">
                         
                         <div key={car.id} className="offer-photo">
                             <div className="car-title">
@@ -198,6 +200,9 @@ const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
                             </div>
                             <div className='photo'>
                                 <img className="car-img" src={car.image_url} alt="car"></img>
+                            </div>
+                            <div className="price">
+                                {car.price}PLN
                             </div>
                         </div>
                         <div className="spec-container-list">
@@ -208,19 +213,21 @@ const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
                                 <div>Gearbox<div> {car.gearbox} </div></div>
                                 <div>Power<div>{car.horse_power}HP </div></div>
                             </div>
-                            <div className="price">
-                                {car.price}PLN
-                            </div>
                         </div>
+                        <Link to={`/sellers/${car.owner_id}`} className='offer-contact' style={{textDecoration: 'none',color: "white"}} >
+                            <div>
+                                <div>Seller:</div> {sellers.filter(el => el.id === car.owner_id)[0].first_name}
+                            </div>
+                            <div>
+                                <div>City:</div> {sellers.filter(el => el.id === car.owner_id)[0].city}
+                            </div>
+                            <div>
+                                <div>Phone:</div> {sellers.filter(el => el.id === car.owner_id)[0].phone}
+                            </div>
+                        </Link>
                        
                     </div>
                     </Link>))}
-                    <Link to={'/cars/addOffer'}><button>ADD</button></Link>
-                    <footer className="footer">
-                        <div>
-                            Tel: 999888777
-                        </div>
-                    </footer>
             </div>
         </div>
     )
@@ -228,7 +235,8 @@ const CarsList = ({cars, filterCarsList, sortCarsList} ) => {
 
 const mapStateToProps = (state) => {
     return {
-        cars: state.cars
+        cars: state.cars,
+        sellers: state.users
     }
 };
 

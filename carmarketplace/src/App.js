@@ -3,7 +3,7 @@ import CarsList from './CarsList';
 import UsersList from './UsersList';
 import UserDetails from './UserDetails';
 import CarDetails from './CarDetails';
-import CarForm from './CarForm';
+import CarEdit from './CarEdit';
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,6 +11,7 @@ import {
   Redirect,
   Link
 } from "react-router-dom";
+import CarCreate from './CarCreate';
 
 
 function App() {
@@ -41,6 +42,9 @@ function App() {
             <Route path="/cars/:id" exact>
               <CarDetails/>
             </Route>
+            <Route path="/cars/:id/edit" exact>
+              <CarEdit/>
+            </Route>
             <Route path="/sellers" exact>
               <UsersList/>
             </Route>
@@ -48,17 +52,18 @@ function App() {
               <UserDetails/>
             </Route>
             <Route path="/sellers/:id/addOffer" exact>
-              <CarForm/>
+              <CarCreate/>
             </Route>
             </div>
           </div>
         </div>
+        
+        </Switch>
         <footer className="footer">
           <div>
             Tel: 999888777
           </div>
         </footer>
-        </Switch>
       </Router>
     </div>
   );

@@ -8,13 +8,24 @@
 }
 
 .header{
-  background-color: black;
-  
+  background-color: rgb(0, 0, 0);
+  border-bottom: 2px solid #00a2ff;
   color: white;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   
+}
+
+.header-container{
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top:0px;
+  box-shadow: 0 0 5px 5px #00a2ff;
+
+
 }
 /* .header-left > div:hover{
   text-shadow: 0 0 5px white,
@@ -50,10 +61,12 @@
 .navbar{
   margin-right: 10px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   width: auto;
   align-items: center;
   gap: 10px;
+  padding: 3px;
 }
 
 .wrapper{
@@ -79,10 +92,14 @@
 }
 
 .car-filters{
-  margin-bottom: 5px;
+  margin: 5px;
   border:2px solid white;
   border-radius: 10px;
-  width: 100%;
+}
+
+.car-details{
+  width: 60%;
+  min-width: 300px;
 }
 
 .footer{
@@ -91,16 +108,20 @@
   background-color: black;
 }
 
+.sort-upper{
+  text-transform: uppercase ;
+  font-weight: 600;
+}
 
 .offer{
   display: flex;
   justify-content: center;
-  border: 2px solid #00b7ff;
   border-radius: 10px;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   align-items: center;
   flex-wrap: wrap;
+  box-shadow: 0 0 5px 1px #00a2ff;
   background: #232526;
   background: -webkit-linear-gradient(to right, #414345, #232526);
   background: linear-gradient(to right, #414345, #232526);
@@ -108,8 +129,17 @@
 
 .offer:hover{
   border: 3px solid rgb(255, 255, 255);
+  box-shadow: 0 0 5px 3px #00a2ff;
   cursor: pointer;
   font-weight: 500;
+}
+
+.button{
+  text-align: center;
+  padding: 3px 5px;
+  border: 2px solid #00a2ff;
+  margin: 3px;
+  background-color: white;
 }
 
 .carslist{
@@ -119,6 +149,9 @@
 
 .offer-container{
   width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .offer-photo{
@@ -139,10 +172,7 @@
   background: -webkit-linear-gradient(to right, #414345, #232526);
   background: linear-gradient(to right, #414345, #232526);
 }
-.photo-details{
-  border-radius: 5px;
-  width: 60%;
-}
+
 
 .photo-container{
   width: 100%;
@@ -195,9 +225,11 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 100%;
 }
 
+.user-list{
+  height: 100%;
+}
 
 .user-container{
   display: flex;
@@ -219,6 +251,11 @@
   justify-content: center;
 }
 
+.offer-contact:hover{
+  border: 3px solid #00a2ff;
+  box-shadow: 0 0 3px 1px #00a2ff;
+}
+
 .offer-contact > div > div{
   font-size: 16px;
   font-weight: 700;
@@ -230,13 +267,19 @@
 
 .user{
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
   border: 2px solid #00b7ff;
   border-radius: 10px;
-  width: 300px;
+  min-width: 300px;
   word-wrap: break-word;
   padding:5px;
+  background-color: #ffffff;
+  box-shadow: 0 0 3px 2px #00a2ff;
 }
+
+.user-cars{
+}
+
 .user:hover{
   border: 3px solid rgb(255, 255, 255);
   cursor: pointer;
@@ -247,11 +290,14 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  gap:5px;
+  width: 100%;
 }
 
 .user-info-data{
   border: 2px solid white;
-  width: 60%;
+  width: 100%;
+  word-wrap: wrap;
 }
 
 .user-info-data > div{
@@ -268,6 +314,7 @@
   padding: 7px 14px;
   display: inline-block;
   font-family: "Lucida Console", Monaco, monospace;
+  text-transform: uppercase;
   font-size: 18px;
   letter-spacing: 1px;
   cursor: pointer;
@@ -305,6 +352,7 @@
 .buttons-container{
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap:10px;
   margin-bottom: 5px;
@@ -325,7 +373,7 @@
 }
 
 .big-img{
-  width: 100%
+  width: 100%;
 }
 
 .spec-container{
@@ -357,7 +405,6 @@
 }
 
 .details{
-  width: 60%;
   border: 2px solid #00b7ff;
   background: #232526;
   background: -webkit-linear-gradient(to right, #414345, #232526);
@@ -383,14 +430,17 @@
   0 0 30px #00a2ff
 }
 
-.user-offers{
-  width: 70%;
-}
 
 .user-details-container{
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 70%;
+}
+
+.body-width{
+  display: flex;
+  justify-content: center;
 }
 
 .car-form-container{
@@ -438,6 +488,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
 }
 .description > div{
   font-size: 20px;
@@ -480,4 +531,18 @@
 .user-details-sort{
   padding: 5px;
   border: 2px solid #00a2ff;
+}
+
+.iframe{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 300px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.iframe > iframe{
+  width: 100%;
+  height: 300px;
 }

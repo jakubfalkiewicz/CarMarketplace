@@ -11,28 +11,66 @@ import {
   Redirect,
   Link
 } from "react-router-dom";
-import CarCreate from './CarCreate';
+import UserCreate from './UserCreate';
+import i18next from 'i18next';
+import { initReactI18next, useTranslation } from 'react-i18next';
+import Backend from 'i18next-http-backend';
+import languages from './config/languages';
+
+const language = languages.find(value => value === localStorage.getItem('language'));
+
+i18next.use(Backend)
+  .use(initReactI18next)
+  .init({
+    lng: language || 'en',
+    fallbackLng: 'en',
+    ns: [ 'main' ],
+    defaultNS: 'main',
+    react: {
+      wait: true,
+      useSuspense: false
+    },
+    interpolation: {
+      escapeValue: false
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json'
+    }
+  })
 
 
 function App() {
+
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
+  }
+
   return (
     <div className="App">
       <Router>
         <Switch>
         <div className='wrapper'>
-          <header className="header">
-            <div className='header-left'>
-              <div className='logo'></div>
-              <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div className='market'>
-                CarMarket
-              </div></Link>
-            </div>
-            
-            <div className='navbar'>
-              <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div>Cars</div></Link>
-              <Link to="/sellers" style={{textDecoration: 'none',color: "white"}}><div>Sellers</div></Link>
-            </div>
-          </header>
+          <div className='header-container'>
+            <header className="header">
+              <div className='header-left'>
+                <div className='logo'></div>
+                <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div className='market'>
+                  CarMarket
+                </div></Link>
+              </div>
+              
+              <div className='navbar'>
+                <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div>{t('cars')}</div></Link>
+                <Link to="/sellers" style={{textDecoration: 'none',color: "white"}}><div>{t('sellers')}</div></Link>
+                <button onClick={() => changeLanguage('pl')}>ENG</button>
+                <button onClick={() => changeLanguage('es')}>ES</button>
+              </div>
+            </header>
+          </div>
+          
           <div className='cont'>
             <div className='content'>
             <Redirect exact from="/" to="/cars"/>
@@ -48,11 +86,17 @@ function App() {
             <Route path="/sellers" exact>
               <UsersList/>
             </Route>
+            <Route path="/addUser" exact>
+              <UserCreate/>
+            </Route>
+            <Route path="/addOffer" exact>
+              <CarEdit/>
+            </Route>
             <Route path="/sellers/:id" exact>
               <UserDetails/>
             </Route>
             <Route path="/sellers/:id/addOffer" exact>
-              <CarCreate/>
+              <CarEdit/>
             </Route>
             </div>
           </div>

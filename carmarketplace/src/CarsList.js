@@ -2,14 +2,22 @@
 import './App.css';
 import { connect } from "react-redux";
 // import { getUserList } from "../actions/UserActions";
-import { filterCarsList, sortCarsList } from "./ducks/cars/actions";
+import { filterCarsList, sortCarsList, getCarsList } from "./ducks/cars/actions";
 import { ErrorMessage, Field, Form, Formik} from "formik";
 import {Link} from "react-router-dom";
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 
-const CarsList = ({cars, sellers, filterCarsList, sortCarsList} ) => {
+const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) => {
+    
+    useEffect(() => {
+        if (cars.length == 0){
+            getCarsList()
+        }
+    })
+
         
     // const makeSet = new Set(cars.map(car => car.make))
     // const values = makeSet.map(el => el.value)
@@ -38,10 +46,12 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList} ) => {
         max_horse_power: Yup.number().min(0).max(2000)
     })
 
+    const { t, i18n } = useTranslation();
+
     return (
         <div className='carslist'>
             <div className="offer-container">
-                <Formik
+                {/* <Formik
                         initialValues= {{
                             wheel_drive: '',
                             gearbox: '',
@@ -155,7 +165,7 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList} ) => {
                                 </button>
                             </div>
                         </Form>
-                    </Formik>
+                    </Formik> */}
                     <Formik
                         initialValues= {{
                             filter: '',
@@ -165,31 +175,29 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList} ) => {
                         onSubmit={(values) => {sortCarsList(values)}}
                         >
                         <Form>
-                            <div className='car-filters'>
-                                <h2>Sort: </h2>
-                                <div className="fields-container">
-                                    <div className="formik-select">
-                                        Sort
-                                        <div>
-                                            <Field name="filter" as="select">
-                                                <option value="title">A-Z</option>
-                                                <option value="price_asc">Price asc.</option>
-                                                <option value="price_desc">Price desc.</option>
-                                                <option value="mileage_asc">Mileage asc.</option>
-                                                <option value="mileage_desc">Mileage desc.</option>
-                                                <option value="power_asc">Power asc.</option>
-                                                <option value="power_desc">Power desc.</option>
-                                            </Field>
-                                        </div>
+                        <div className='car-filters'>
+                                <div className="formik-select">
+                                {t('sort')}
+                                    <div>
+                                        <Field className="user-details-sort" name="filter" as="select">
+                                            <option value="title">A-Z</option>
+                                            <option value="newest">{t('newest_first')}</option>
+                                            <option value="price_asc">{t('price')} asc.</option>
+                                            <option value="price_desc">{t('price')} desc.</option>
+                                            <option value="mileage_asc">{t('mileage')} asc.</option>
+                                            <option value="mileage_desc">{t('mileage')} desc.</option>
+                                            <option value="power_asc">{t('power')} asc.</option>
+                                            <option value="power_desc">{t('power')} desc.</option>
+                                        </Field>
                                     </div>
-                                </div>
-                                <button type="submit">
-                                    Submit
-                                </button>
                             </div>
-                        </Form>
+                            <button type="submit">
+                                Submit
+                            </button>
+                        </div>
+                    </Form>
                     </Formik>
-                <h1> Cars List </h1>
+                <h1> {t('cars')} {t('list')} </h1>
                 {cars && cars.map(car => (
                     <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}}>
                     <div key={car.id} className="offer">
@@ -207,27 +215,30 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList} ) => {
                         </div>
                         <div className="spec-container-list">
                             <div className="car-spec">
-                                <div>Year<div> {car.production_year} </div></div>
-                                <div>Mileage<div> {car.mileage}km </div></div>
-                                <div>Fuel<div> {car.fuel_type} </div></div>
-                                <div>Gearbox<div> {car.gearbox} </div></div>
-                                <div>Power<div>{car.horse_power}HP </div></div>
+                                <div>{t('year')}<div> {car.production_year} </div></div>
+                                <div>{t('mileage')}<div> {car.mileage}km </div></div>
+                                <div>{t('fuel')}<div> {car.fuel_type} </div></div>
+                                <div>{t('gearbox')}<div> {car.gearbox} </div></div>
+                                <div>{t('power')}<div>{car.horse_power}HP </div></div>
                             </div>
                         </div>
-                        <Link to={`/sellers/${car.owner_id}`} className='offer-contact' style={{textDecoration: 'none',color: "white"}} >
+                        { sellers.length > 0 && car.owner_id && <Link to={`/sellers/${car.owner_id}`} className='offer-contact' style={{textDecoration: 'none',color: "white"}} >
                             <div>
-                                <div>Seller:</div> {sellers.filter(el => el.id === car.owner_id)[0].first_name}
+                                <div>{t('seller')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].first_name}
                             </div>
                             <div>
-                                <div>City:</div> {sellers.filter(el => el.id === car.owner_id)[0].city}
+                                <div>{t('city')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].city}
                             </div>
                             <div>
-                                <div>Phone:</div> {sellers.filter(el => el.id === car.owner_id)[0].phone}
+                                <div>{t('phone')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].phone}
                             </div>
-                        </Link>
+                        </Link>}
                        
                     </div>
                     </Link>))}
+                    <Link to={`/addOffer`}><div id="outer">
+                        <div class="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
+                    </div></Link>
             </div>
         </div>
     )
@@ -242,7 +253,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     filterCarsList,
-    sortCarsList
+    sortCarsList,
+    getCarsList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarsList)

@@ -1,6 +1,11 @@
 import types from './types'
 import axios from 'axios'
 
+export const getCarsListAction = (cars) => ({
+    type: types.GET_CARS_LIST,
+    payload: cars
+})
+
 export const filterCarsListAction = (cars) => ({
     type: types.CAR_LIST_FILTER,
     payload: cars
@@ -26,6 +31,25 @@ export const deleteCarAction = (car) => ({
     payload: car
 });
 
+
+export const getCarsList = () => {
+    return async dispatch => {
+        const response = await axios.get('http://localhost:5000/api/cars/');
+        const cars = response.data
+        dispatch(getCarsListAction(cars))
+    }
+}
+
+export const deleteCar = (car) => {
+    console.log(car)
+    return async dispatch => {
+        const response = await axios.delete(`http://localhost:5000/api/cars/${car.id}`);
+        const carToDelete = response.data
+        console.log(carToDelete)
+        dispatch(deleteCarAction(carToDelete))
+    }
+}
+
 export const createCar = (car) => {
     return async dispatch => {
         axios({
@@ -33,7 +57,7 @@ export const createCar = (car) => {
             url: 'http://localhost:5000/api/cars/',
             data: car,
             }).then((response) => {
-                dispatch(createCarAction(response.data)); console.log(response)
+                dispatch(createCarAction(response.data));
             }).catch((error) => console.log(error));
     }
 }
@@ -45,21 +69,12 @@ export const editCar = (car) => {
             url: `http://localhost:5000/api/cars/${car.id}`,
             data: car,
             }).then((response) => {
-                dispatch(editCarAction(response.data)); console.log(response)
+                dispatch(editCarAction(response.data));
             }).catch((error) => console.log(error));
     }
 }
 
-export const deleteCar = (car) => {
-    console.log("DELETING")
-    console.log(car.id)
-    return async dispatch => {
-        console.log("AXIOS")
-        await axios.delete(`http://localhost:5000/api/cars/${car.id}`)
-        .then((response) => {dispatch(deleteCarAction(response.data)); console.log(response)})
-        .catch((error) => console.log(error))
-    }
-}
+
 
 export const filterCarsList = (filters) => {
     // console.log(filters.gearbox)
@@ -71,20 +86,15 @@ export const filterCarsList = (filters) => {
         const response = await axios.get('http://localhost:5000/api/cars/');
         const cars = response.data
         const gearbox_filter = cars.filter(car => car.gearbox === filters.gearbox)
-        const wheel_drive_filter = cars.filter(car => car.wheel_drive === filters.wheel_drive)
-        console.log(gearbox_filter)
-        console.log(wheel_drive_filter)
+        // const wheel_drive_filter = cars.filter(car => car.wheel_drive === filters.wheel_drive)
         dispatch(filterCarsListAction(gearbox_filter))
     }
 }
 
 export const sortCarsList = (filter) => {
-    console.log(filter)
     return async dispatch => {
-        // const response = await axios.get('http://localhost:5000/api/cars/');
         const cars = filter.store
-        console.log(cars)
-        // function byTitle(a, b) {return a.title. - b.title}
+        function newestFirst(a, b) {return (b.upload_date < a.upload_date) ? -1 : ((b.upload_date > a) ? 1 : 0)}
         function priceDesc(a, b) {return b.price - a.price}
         function priceAsc(a, b) {return a.price - b.price}
         function mileageDesc(a, b) {return b.mileage - a.mileage}
@@ -92,6 +102,7 @@ export const sortCarsList = (filter) => {
         function powerDesc(a, b) {return b.horse_power - a.horse_power}
         function powerAsc(a, b) {return a.horse_power - b.horse_power}
         function filtered(filter){
+            if (filter.filter === "newest"){cars.sort(newestFirst)}
             if (filter.filter === "price_asc"){cars.sort(priceAsc)}
             if (filter.filter === "price_desc"){cars.sort(priceDesc)}
             if (filter.filter === "mileage_asc"){cars.sort(mileageAsc)}
@@ -101,8 +112,6 @@ export const sortCarsList = (filter) => {
             if (filter.filter === "title"){cars.sort((a, b) => a.title.localeCompare(b.title))} 
         }
         filtered(filter)
-        //IF cars IS EMPTY, AXIOS GET CARS !!! 
-        console.log(cars)
         dispatch(sortCarsListAction(cars))
     }
 }

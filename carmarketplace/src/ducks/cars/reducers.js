@@ -1,7 +1,9 @@
 import types from "./types"
 
-const carsReducer = (state = initialState, action) => {
+const carsReducer = (state = [], action) => {
     switch(action.type) {
+		case types.GET_CARS_LIST:
+			return [...action.payload]
 		case types.CAR_LIST_SORT:
 			return [...action.payload]
 		case types.CAR_LIST_FILTER:
@@ -9,7 +11,7 @@ const carsReducer = (state = initialState, action) => {
         case types.CAR_CREATE:
             return [...state,action.payload]
 		case types.CAR_EDIT:
-			return [...state.filter(car => car.id !== action.payload.id), action.payload]
+			return [...state.map(car => car.id !== action.payload.id ? car : action.payload)]
         case types.CAR_DELETE:
             return [...action.payload]
         default:
@@ -20,11 +22,8 @@ const carsReducer = (state = initialState, action) => {
 
 
 
-
-
 const initialState = [
 	{
-		//0f6047d7-fefa-49e6-bc3e-869942974cc1
 		"id":2,
 		"title":"VW Golf IV 1.6 LPG manual",
 		"make":"Volkswagen",
@@ -41,7 +40,6 @@ const initialState = [
 		"image_url":"https://samochody-szwajcaria.pl/wp-content/uploads/2010/04/golf.jpg",
 		"description":"Well maintained, golf 4 with a new LPG installation. Previous driver was an old non-smoking lady",
 		"owner_id":2
-		//fb0baa8c-e63b-4108-ad96-eeefb4292c86
 	},
 	{
 		"id":1,
@@ -241,42 +239,114 @@ const initialState = [
 		"description":"Very comfortable french family sedan. Good for long trips - 35mpg fuel economy",
 		"owner_id":2
 	},
-	{
-		"id":14,
-		"title": "Audi A8L D2 LONG 4.2 LPG",
-		"make": "Audi",
-		"model": "A8",
-		"price": 13999,
-		"production_year": 1998,
-		"mileage": 319999,
-		"fuel_type": "Petrol/LPG",
-		"engine_size": 4172,
-		"horse_power": 310,
-		"wheel_drive": "All",
-		"gearbox": "Automatic",
-		"vin": "VNKKL96350A098104",
-		"image_url": "https://thumbs.img-sprzedajemy.pl/1000x901c/c3/ee/4b/sprzedamzamienie-audi-a8l-d2-42-lpg-527116840.jpg",
-		"description": "Very comfy limousine for long trips. Recently replaced pneumatic suspension and oils",
-		"owner_id":2
-	},
-	{
-		"id": 16,
-		"title": "Skoda Octavia 140HP TDi sedan",
-		"make": "Skoda",
-		"model": "Octavia",
-		"price": 11499,
-		"production_year": 2005,
-		"mileage": 339000,
-		"fuel_type": "Diesel",
-		"engine_size": 1968,
-		"horse_power": 140,
-		"wheel_drive": "Front",
-		"gearbox": "Manual",
-		"vin": "177823698dbvbvbve",
-		"image_url": "https://www.autocentrum.pl/ac-file/article/5dcd1d7d583a0f4d75292394.jpg",
-		"description": "Very reliable car. Nothing has broken since last year. Brakes and camshaft were replaced 3 years ago",
-		"owner_id": 2
-	}
+	// {
+	// 	"id":14,
+	// 	"title": "Audi A8L D2 LONG 4.2 LPG",
+	// 	"make": "Audi",
+	// 	"model": "A8",
+	// 	"price": 13999,
+	// 	"production_year": 1998,
+	// 	"mileage": 319999,
+	// 	"fuel_type": "Petrol/LPG",
+	// 	"engine_size": 4172,
+	// 	"horse_power": 310,
+	// 	"wheel_drive": "All",
+	// 	"gearbox": "Automatic",
+	// 	"vin": "VNKKL96350A098104",
+	// 	"image_url": "https://thumbs.img-sprzedajemy.pl/1000x901c/c3/ee/4b/sprzedamzamienie-audi-a8l-d2-42-lpg-527116840.jpg",
+	// 	"description": "Very comfy limousine for long trips. Recently replaced pneumatic suspension and oils",
+	// 	"owner_id":2
+	// },
+	// {
+	// 	"id": 16,
+	// 	"title": "Skoda Octavia 140HP TDi sedan",
+	// 	"make": "Skoda",
+	// 	"model": "Octavia",
+	// 	"price": 11499,
+	// 	"production_year": 2005,
+	// 	"mileage": 339000,
+	// 	"fuel_type": "Diesel",
+	// 	"engine_size": 1968,
+	// 	"horse_power": 140,
+	// 	"wheel_drive": "Front",
+	// 	"gearbox": "Manual",
+	// 	"vin": "177823698dbvbvbve",
+	// 	"image_url": "https://www.autocentrum.pl/ac-file/article/5dcd1d7d583a0f4d75292394.jpg",
+	// 	"description": "Very reliable car. Nothing has broken since last year. Brakes and camshaft were replaced 3 years ago",
+	// 	"owner_id": 2
+	// },
+	// {
+	// 	"id": 21,
+	// 	"title": "Alfa Romeo Stelvio QV ",
+	// 	"make": "Alfa Romeo",
+	// 	"model": "Stelvio",
+	// 	"price": 350000,
+	// 	"production_year": 2019,
+	// 	"mileage": 66000,
+	// 	"fuel_type": "Petrol",
+	// 	"engine_size": 2891,
+	// 	"horse_power": 510,
+	// 	"wheel_drive": "All",
+	// 	"gearbox": "Automatic",
+	// 	"vin": "dgjhkiudhydfjngkj",
+	// 	"image_url": "https://www.media.stellantis.com/cache/0/4/b/c/6/04bc6f1dc0eab7645f671442bf3795717204d551.jpeg",
+	// 	"description": "Best suv for track. Engine inspired from ferrari.",
+	// 	"owner_id": 3
+	// },
+	// {
+	// 	"id": 21,
+	// 	"title": "Alfa Romeo Stelvio QV ",
+	// 	"make": "Alfa Romeo",
+	// 	"model": "Stelvio",
+	// 	"price": 350000,
+	// 	"production_year": 2019,
+	// 	"mileage": 66000,
+	// 	"fuel_type": "Petrol",
+	// 	"engine_size": 2891,
+	// 	"horse_power": 510,
+	// 	"wheel_drive": "All",
+	// 	"gearbox": "Automatic",
+	// 	"vin": "dgjhkiudhydfjngkj",
+	// 	"image_url": "https://www.media.stellantis.com/cache/0/4/b/c/6/04bc6f1dc0eab7645f671442bf3795717204d551.jpeg",
+	// 	"description": "Best suv for track. Engine inspired from ferrari.",
+	// 	"owner_id": 3
+	// },
+	// {
+	// 	"id": 22,
+	// 	"title": "Alfa Romeo Guilia 2.2 JTD ",
+	// 	"make": "Alfa Romeo",
+	// 	"model": "Guilia",
+	// 	"price": 135000,
+	// 	"production_year": 2018,
+	// 	"mileage": 85000,
+	// 	"fuel_type": "Diesel",
+	// 	"engine_size": 2143,
+	// 	"horse_power": 210,
+	// 	"wheel_drive": "All",
+	// 	"gearbox": "Automatic",
+	// 	"vin": "458t7gy4578gy9578",
+	// 	"image_url": "https://s-trojmiasto.pl/zdj/c/n/9/2917/3000x0/2917051.jpg",
+	// 	"description": "Well maintained Alfa Romeo Guilia 2.2 JTD. All wheel drive and automatic transmission make this car very good to drive.",
+	// 	"owner_id": 6
+	// },
+	// {
+	// 	"id": 29,
+	// 	"title": "Mercedes c32 AMG",
+	// 	"make": "Mercedes-Benz",
+	// 	"model": "C-class",
+	// 	"price": 81500,
+	// 	"production_year": 2004,
+	// 	"mileage": 49000,
+	// 	"fuel_type": "Petrol",
+	// 	"engine_size": 3199,
+	// 	"horse_power": 354,
+	// 	"wheel_drive": "Rear",
+	// 	"gearbox": "Automatic",
+	// 	"vin": "juhgf3f89y8f92y9f",
+	// 	"image_url": "https://motoinspiracje.pl/wp-content/uploads/2020/07/3-37.jpg",
+	// 	"description": "Without a star there is no ride ;)",
+	// 	"owner_id": 7
+	// }
 ]
 
 

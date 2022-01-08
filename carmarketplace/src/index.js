@@ -8,6 +8,7 @@ import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import carsReducer from './ducks/cars/reducers';
 import usersReducer from './ducks/users/reducers'
+import logger from './middlewares/Logger'
 
 const store = createStore(
   combineReducers(
@@ -15,12 +16,12 @@ const store = createStore(
       cars: carsReducer,
       users: usersReducer
     }
-  ), applyMiddleware(thunk));
+  ), applyMiddleware(thunk, logger));
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={store} >
       <App />
     </Provider>
   </React.StrictMode>,

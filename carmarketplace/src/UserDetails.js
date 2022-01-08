@@ -5,29 +5,40 @@ import { createCar, deleteCar } from "./ducks/cars/actions";
 import { sortCarsList } from "./ducks/cars/actions";
 import { ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
+import { useTranslation } from 'react-i18next';
 
-const UserDetails = ({user, cars, sortCarsList}, props) => {
-    // console.log(user)
-    // console.log(cars)
+const UserDetails = ({user, userCars, cars, sortCarsList}, props) => {
+    const { t, i18n } = useTranslation();
+    
+    console.log(user[0].city)
+
     return  (
-        <div  >
+        
+        <div className="body-width">
             <div className="user-details-container">
-                <h2>Seller's Info:</h2>
+            
+                <h2>{t('seller')}:</h2>
                 {user.map(el =>
                 <div className="user-info">
                     <div>
                         <div>{el.first_name} {el.last_name}</div>
                         <div>{el.mail}</div>
                         <div>{el.phone}</div>
+                        <div>{t('number')}: {userCars.length}</div>
                         <div>{el.city}</div>
-                        <div>Cars for sell: {cars.length}</div>
                     </div>
-                    
                 </div>)}
-                <h2>Offers:</h2>
+                <div className="iframe">
+                    <iframe
+                            frameborder="0"
+                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${user[0].city}`} allowfullscreen>
+                    </iframe>
+                </div>
+                <h2>{t('cars')}:</h2>
                 <Formik
                     initialValues= {{
-                        filter: ''
+                        filter: '',
+                        store: cars
                     }}
                     enableReinitialize={true}
                     onSubmit={(values) => {sortCarsList(values)}}
@@ -35,16 +46,17 @@ const UserDetails = ({user, cars, sortCarsList}, props) => {
                     <Form>
                         <div className='car-filters'>
                                 <div className="formik-select">
-                                    Sort
+                                    {t('sort')}
                                     <div>
                                         <Field className="user-details-sort" name="filter" as="select">
                                             <option value="title">A-Z</option>
-                                            <option value="price_asc">Price asc.</option>
-                                            <option value="price_desc">Price desc.</option>
-                                            <option value="mileage_asc">Mileage asc.</option>
-                                            <option value="mileage_desc">Mileage desc.</option>
-                                            <option value="power_asc">Power asc.</option>
-                                            <option value="power_desc">Power desc.</option>
+                                            <option value="newest">{t('newest_first')}</option>
+                                            <option value="price_asc">{t('price')} asc.</option>
+                                            <option value="price_desc">{t('price')} desc.</option>
+                                            <option value="mileage_asc">{t('mileage')} asc.</option>
+                                            <option value="mileage_desc">{t('mileage')} desc.</option>
+                                            <option value="power_asc">{t('power')} asc.</option>
+                                            <option value="power_desc">{t('power')} desc.</option>
                                         </Field>
                                     </div>
                             </div>
@@ -55,7 +67,7 @@ const UserDetails = ({user, cars, sortCarsList}, props) => {
                     </Form>
                 </Formik>
                 <div className="user-offers">
-                {cars && cars.map(car => (
+                {userCars && userCars.map(car => (
                     
                     <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="offer">
                         <div key={car.id} className="offer-photo">
@@ -71,19 +83,19 @@ const UserDetails = ({user, cars, sortCarsList}, props) => {
                             </div>
                         <div className="spec-container-list">
                             <div className="car-spec">
-                                <div>Year<div> {car.production_year} </div></div>
-                                <div>Mileage<div> {car.mileage}km </div></div>
-                                <div>Fuel<div> {car.fuel_type} </div></div>
-                                <div>Gearbox<div> {car.gearbox} </div></div>
-                                <div>Power<div>{car.horse_power}HP </div></div>
+                                <div>{t('year')}<div> {car.production_year} </div></div>
+                                <div>{t('mileage')}<div> {car.mileage}km </div></div>
+                                <div>{t('fuel')}<div> {car.fuel_type} </div></div>
+                                <div>{t('gearbox')}<div> {car.gearbox} </div></div>
+                                <div>{t('power')}<div>{car.horse_power}HP </div></div>
                             </div>
                         </div>
                         <div className="buttons-container">
                             <div id="outer">
-                                <Link to={`/cars/${car.id}/edit`}><div class="button_slide slide_diagonal blue">EDIT</div></Link>
+                                <Link to={`/cars/${car.id}/edit`}><div class="button_slide slide_diagonal blue">{t('edit')}</div></Link>
                             </div>
                             <div id="outer">
-                                <div class="button_slide slide_diagonal red">DELETE</div>
+                                <div class="button_slide slide_diagonal red">{t('delete')}</div>
                             </div>
                         </div>
                     </Link>
@@ -92,7 +104,7 @@ const UserDetails = ({user, cars, sortCarsList}, props) => {
                 </div>
                 <div>
                 <Link to={`/sellers/${user[0].id}/addOffer`}><div id="outer">
-                        <div class="button_slide slide_diagonal green">ADD OFFER</div>
+                        <div class="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
                     </div></Link>
                 </div>
             </div>
@@ -103,12 +115,12 @@ const UserDetails = ({user, cars, sortCarsList}, props) => {
 
 const mapStateToProps =  (state,props) => {
     const id = parseInt(props.match.params.id)
-    console.log(state.cars)
     const user = state.users.filter(user => user.id === id)
     const cars = state.cars.filter(car => car.owner_id === id)
     return {
         user: user,
-        cars: cars
+        userCars: cars,
+        cars: state.cars
     }
 };
 

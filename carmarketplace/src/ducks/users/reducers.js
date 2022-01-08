@@ -1,8 +1,8 @@
 import types from "./types"
 
-const usersReducer = (state = initialState, action) => {
+const usersReducer = (state = [], action) => {
     switch(action.type) {
-		case types.USER_LIST_FILTER:
+		case types.GET_USERS_LIST:
 			return [...action.payload]
         case types.USER_CREATE:
             return [...state,action.payload]

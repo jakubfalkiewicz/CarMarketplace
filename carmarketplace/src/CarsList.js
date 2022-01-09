@@ -192,12 +192,14 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                                     </div>
                             </div>
                             <button type="submit">
-                                Submit
+                            {t('submit')}
                             </button>
                         </div>
                     </Form>
                     </Formik>
-                <h1> {t('cars')} {t('list')} </h1>
+                <h1> {t('cars')} {t('list')}  <Link to={`/addOffer`}><div id="outer">
+                        <div class="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
+                    </div></Link></h1>
                 {cars && cars.map(car => (
                     <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}}>
                     <div key={car.id} className="offer">
@@ -236,9 +238,7 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                        
                     </div>
                     </Link>))}
-                    <Link to={`/addOffer`}><div id="outer">
-                        <div class="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
-                    </div></Link>
+                    
             </div>
         </div>
     )

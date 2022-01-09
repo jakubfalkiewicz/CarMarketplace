@@ -31,12 +31,42 @@ export const deleteCarAction = (car) => ({
     payload: car
 });
 
+export const addOwnerAction = (car) => ({
+    type: types.ADD_OWNER,
+    payload: car
+})
+
 
 export const getCarsList = () => {
     return async dispatch => {
         const response = await axios.get('http://localhost:5000/api/cars/');
         const cars = response.data
         dispatch(getCarsListAction(cars))
+    }
+}
+
+
+export const createCar = (car) => {
+    return async dispatch => {
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/api/cars/',
+            data: car,
+        }).then((response) => {
+            dispatch(createCarAction(response.data));
+        }).catch((error) => console.log(error));
+    }
+}
+
+export const editCar = (car) => {
+    return async dispatch => {
+        axios({
+            method: 'put',
+            url: `http://localhost:5000/api/cars/${car.id}`,
+            data: car,
+        }).then((response) => {
+            dispatch(editCarAction(response.data));
+        }).catch((error) => console.log(error));
     }
 }
 
@@ -49,31 +79,6 @@ export const deleteCar = (car) => {
         dispatch(deleteCarAction(carToDelete))
     }
 }
-
-export const createCar = (car) => {
-    return async dispatch => {
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/api/cars/',
-            data: car,
-            }).then((response) => {
-                dispatch(createCarAction(response.data));
-            }).catch((error) => console.log(error));
-    }
-}
-
-export const editCar = (car) => {
-    return async dispatch => {
-        axios({
-            method: 'put',
-            url: `http://localhost:5000/api/cars/${car.id}`,
-            data: car,
-            }).then((response) => {
-                dispatch(editCarAction(response.data));
-            }).catch((error) => console.log(error));
-    }
-}
-
 
 
 export const filterCarsList = (filters) => {

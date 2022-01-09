@@ -44,27 +44,27 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
     return (
         <div className="car-form-container">
             <div className="car-form-content">
-                <h2>Edit Car data</h2>
+                { car.id === '' ?  <h2>{t('add')} {t('car')}</h2> : <h2>{t('edit')} {t('car')}</h2>}
                 <div className="car-forms">
                     <Formik
                         initialValues={{
-                            id: car.id || '',
-                            title: car.title || '',
-                            make:car.make || '',
-                            model:car.model || '',
-                            price:car.price || '',
-                            production_year:car.production_year || '',
-                            mileage:car.mileage || '',
-                            fuel_type:car.fuel_type || '',
-                            engine_size:car.engine_size || '',
-                            horse_power:car.horse_power || '',
-                            wheel_drive:car.wheel_drive || '',
-                            gearbox:car.gearbox || '',
-                            vin:car.vin || '',
-                            image_url:car.image_url || '',
-                            description:car.description || '',
+                            id: car.id,
+                            title: car.title,
+                            make:car.make,
+                            model:car.model,
+                            price:car.price,
+                            production_year:car.production_year,
+                            mileage:car.mileage,
+                            fuel_type:car.fuel_type,
+                            engine_size:car.engine_size,
+                            horse_power:car.horse_power,
+                            wheel_drive:car.wheel_drive,
+                            gearbox:car.gearbox,
+                            vin:car.vin,
+                            image_url:car.image_url,
+                            description:car.description,
                             upload_date: reformed,
-                            owner_id: car.owner_id || null
+                            owner_id: car.owner_id
                         }}
                         validationSchema={userSchema}
                         onSubmit={(values) => handleSubmit(values)}
@@ -159,7 +159,7 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
                                 </div>
                             </div>
                             <button type="submit">
-                                Submit
+                            {t('submit')}
                             </button>
                         </Form>
                     </Formik>

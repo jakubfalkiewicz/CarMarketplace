@@ -5,6 +5,8 @@ const CAR_LIST_FILTER = 'CAR_LIST_FILTER';
 const CAR_LIST_SORT = 'CAR_LIST_SORT';
 const CAR_EDIT = 'CAR_EDIT'
 const GET_CARS_LIST = 'GET_CARS_LIST';
+const ADD_OWNER = 'ADD_OWNER'
+
 const types = {
     CAR_CREATE,
     CAR_DELETE,
@@ -12,7 +14,8 @@ const types = {
     CAR_LIST,
     CAR_LIST_FILTER,
     CAR_LIST_SORT,
-    GET_CARS_LIST
+    GET_CARS_LIST,
+    ADD_OWNER
 }
 
 export default types

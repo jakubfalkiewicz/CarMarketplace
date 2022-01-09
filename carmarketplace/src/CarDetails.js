@@ -5,6 +5,7 @@ import { deleteCar } from "./ducks/cars/actions";
 import { useState } from "react";
 import UsersList from './UsersList';
 import { useTranslation } from 'react-i18next';
+import AddOwner from "./AddOwner";
 
 const CarDetails = ({owner, car}, props) => {
 
@@ -40,26 +41,26 @@ const CarDetails = ({owner, car}, props) => {
                 </div>
             </div>))}
         
-        {owner.map(user =>
+        {owner && 
             <div className="user-info">
                 
-                <Link to={`/sellers/${user.id}`} className="user-info-data" style={{textDecoration: 'none',color: "white"}} >
+                <Link to={`/sellers/${owner.id}`} className="user-info-data" style={{textDecoration: 'none',color: "white"}} >
                     <div className="section">{t('contact')}</div>
-                    <div>{user.first_name} {user.last_name}</div>
-                    <div>{user.mail}</div>
-                    <div>{user.phone}</div>
-                    <div>{user.city}</div>
+                    <div>{owner.first_name} {owner.last_name}</div>
+                    <div>{owner.mail}</div>
+                    <div>{owner.phone}</div>
+                    <div>{owner.city}</div>
                 </Link>
                 
-            </div>
-        )}
+            </div>}
+        {owner && 
         <div className="iframe">
             <iframe
-                    frameborder="0"
-                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${owner[0].city}`} allowfullscreen>
+                    frameBorder="0"
+                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${owner.city}`} allowFullScreen>
             </iframe>
         </div>
-        
+        }
         <div className="buttons-container">
             <div id="outer">
                 <Link to={`/cars/${car[0].id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
@@ -69,8 +70,12 @@ const CarDetails = ({owner, car}, props) => {
             </div>
             {car[0].owner_id === null && 
             <div>
-                <div className="button_slide slide_diagonal blue">{t('add')} {t('owner')}</div>
-            </div>}
+                {display === false &&  <div className="button_slide slide_diagonal blue" onClick={() => setDisplay(true)}>{t('add')} {t('owner')}</div>}
+            </div>
+            }
+        </div>
+        <div>
+            {display === true && car[0].owner_id === null && <div><AddOwner car={car[0]}></AddOwner></div>}
         </div>
     </div>
     )
@@ -80,7 +85,8 @@ const mapStateToProps = (state,props) => {
     
     const id = parseInt(props.match.params.id)
     const car = state.cars.filter(car => car.id === id)
-    const owner = state.users.filter(user => user.id === car[0].owner_id)
+    const owner = state.users.filter(user => user.id === car[0].owner_id)[0]
+
     return {
         owner: owner,
         car: car

@@ -98,6 +98,9 @@ function App() {
             <Route path="/sellers/:id/addOffer" exact>
               <CarEdit/>
             </Route>
+            <Route path="/sellers/:id/edit" exact>
+              <UserCreate/>
+            </Route>
             </div>
           </div>
         </div>

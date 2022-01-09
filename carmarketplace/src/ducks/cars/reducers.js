@@ -10,6 +10,8 @@ const carsReducer = (state = [], action) => {
 			return [...action.payload]
         case types.CAR_CREATE:
             return [...state,action.payload]
+		case types.ADD_OWNER:
+			return [...state.map(car => car.id !== action.payload.id ? car : {...car,owner_id: action.payload.id} )]
 		case types.CAR_EDIT:
 			return [...state.map(car => car.id !== action.payload.id ? car : action.payload)]
         case types.CAR_DELETE:

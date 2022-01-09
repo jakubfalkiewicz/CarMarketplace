@@ -1,16 +1,14 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { createCar, deleteCar } from "./ducks/cars/actions";
+import { deleteUser, deleteUserAction } from "./ducks/users/actions";
 import { sortCarsList } from "./ducks/cars/actions";
 import { ErrorMessage, Field, Form, Formik} from "formik";
 import axios from "axios";
 import { useTranslation } from 'react-i18next';
 
-const UserDetails = ({user, userCars, cars, sortCarsList}, props) => {
+const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteUserAction}, props) => {
     const { t, i18n } = useTranslation();
-    
-    console.log(user[0].city)
 
     return  (
         
@@ -18,7 +16,15 @@ const UserDetails = ({user, userCars, cars, sortCarsList}, props) => {
             <div className="user-details-container">
             
                 <h2>{t('seller')}:</h2>
-                {user.map(el =>
+                <div className="buttons-container">
+                    <div id="outer">
+                        <Link to={`/sellers/${user[0].id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
+                    </div>
+                    <div id="outer">
+                        <div onClick={() => {deleteUserAction(user[0]); window.history.back()}} className="button_slide slide_diagonal red">{t('delete')}</div>
+                    </div>
+                </div>
+                {user && user.map(el =>
                 <div className="user-info">
                     <div>
                         <div>{el.first_name} {el.last_name}</div>
@@ -30,8 +36,8 @@ const UserDetails = ({user, userCars, cars, sortCarsList}, props) => {
                 </div>)}
                 <div className="iframe">
                     <iframe
-                            frameborder="0"
-                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${user[0].city}`} allowfullscreen>
+                            frameBorder="0"
+                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${user[0].city}`} allowFullScreen>
                     </iframe>
                 </div>
                 <h2>{t('cars')}:</h2>
@@ -61,7 +67,7 @@ const UserDetails = ({user, userCars, cars, sortCarsList}, props) => {
                                     </div>
                             </div>
                             <button type="submit">
-                                Submit
+                            {t('submit')}
                             </button>
                         </div>
                     </Form>
@@ -125,8 +131,9 @@ const mapStateToProps =  (state,props) => {
 };
 
 const mapDispatchToProps = {
-    createCar,
-    sortCarsList
+    deleteUser,
+    sortCarsList,
+    deleteUserAction
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserDetails))

@@ -28,5 +28,7 @@
     "city": "City",
     "first_name": "First name",
     "last_name": "Last name",
-    "number": "Number of cars"
+    "number": "Number of cars",
+    "back": "Back",
+    "submit": "Submit"
 }

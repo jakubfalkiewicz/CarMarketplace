@@ -28,5 +28,7 @@
     "city": "Ciudad",
     "first_name": "Nombre",
     "last_name": "Apellido",
-    "number": "Número de coches"
+    "number": "Número de coches",
+    "back": "Volver",
+    "submit": "Enviar"
 }

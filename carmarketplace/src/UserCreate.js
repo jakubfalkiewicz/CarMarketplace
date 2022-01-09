@@ -2,16 +2,27 @@ import { Field, Form, Formik, ErrorMessage } from "formik"
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { createUser } from "./ducks/users/actions";
+import { createUser, editUser } from "./ducks/users/actions";
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
-import { t } from "i18next";
+import { useTranslation } from 'react-i18next';
 
-const UserCreate = ({createUser},props) => {
+const UserCreate = ({createUser, seller, editUser},props) => {
+    const { t, i18n } = useTranslation();
+
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const reformed = today.toISOString();
 
     const handleSubmit = (values) => {
-        createUser(values);
-        window.history.back()
+        if (seller.id === ''){
+            createUser(values)
+            window.history.back()
+        }
+        else {
+            editUser(values);
+            window.history.back()
+        }
     }
 
     const userSchema = Yup.object().shape({
@@ -23,17 +34,19 @@ const UserCreate = ({createUser},props) => {
     })
 
     return (
-        <div className="car-form-container">
+        <div className="car-form-container height">
             <div className="car-form-content">
-                <h3>{t('add')} {t('seller')}</h3>
+            { seller.id === '' ?  <h2>{t('add')} {t('seller')}</h2> : <h2>{t('edit')} {t('seller')}</h2>}
                 <div className="car-forms">
                     <Formik
                         initialValues={{
-                            first_name:'',
-                            last_name:'',
-                            mail:'',
-                            phone:'',
-                            city:''
+                            id: seller.id,
+                            first_name: seller.first_name,
+                            last_name: seller.last_name,
+                            mail: seller.mail,
+                            phone: seller.phone,
+                            city: seller.city,
+                            upload_date: reformed
                         }}
                         validationSchema={userSchema}
                         onSubmit={(values) => {handleSubmit(values)}}
@@ -42,12 +55,12 @@ const UserCreate = ({createUser},props) => {
                             <div className="car-form">
                                 <div>
                                     <label for="first_name">{t('first_name')}</label>
-                                    <Field className="form-input" name="first_name" type="text" maxlength="30" placeholder="First name"/>
+                                    <Field className="form-input" name="first_name" type="text" maxLength="30" placeholder="First name"/>
                                     <ErrorMessage className="error-message" name="first_name" component="div"/>
                                 </div>
                                 <div>
                                     <label for="last_name">{t('last_name')}</label>
-                                    <Field className="form-input" name="last_name" type="text" maxlength="30" placeholder="Last name"/>
+                                    <Field className="form-input" name="last_name" type="text" maxLength="30" placeholder="Last name"/>
                                     <ErrorMessage className="error-message" name="last_name" component="div"/>
                                 </div>
                                 <div>
@@ -57,21 +70,21 @@ const UserCreate = ({createUser},props) => {
                                 </div>
                                 <div>
                                     <div>{t('phone')}</div>
-                                    <Field className="form-input" name="phone" type="text" maxlength="12" placeholder="Phone"/>
+                                    <Field className="form-input" name="phone" type="text" maxLength="12" placeholder="Phone"/>
                                     <ErrorMessage className="error-message" name="phone" component="div"/>
                                 </div>
                                 <div>
                                     <div>{t('city')}</div>
-                                    <Field className="form-input" name="city" type="text" maxlength="60" placeholder="City"/>
+                                    <Field className="form-input" name="city" type="text" maxLength="60" placeholder="City"/>
                                     <ErrorMessage className="error-message" name="city" component="div"/>
                                 </div>
                             </div>
                             <button type="submit">
-                                Submit
+                            {t('submit')}
                             </button>
                         </Form>
                     </Formik>
-                    <Link to="/users"><button>Back to {t('list')}</button></Link>
+                    <Link to="/sellers"><button>{t('back')}</button></Link>
                 </div>
             </div>
         </div>
@@ -79,13 +92,31 @@ const UserCreate = ({createUser},props) => {
 }
 
 const mapStateToProps = (state,props) => {
-    return {
-        users: state.users
+    if (props.match.path === "/sellers/:id/edit"){
+        const id = parseInt(props.match.params.id)
+        const seller = state.users.filter(el => el.id === id)
+        return {
+            seller: seller[0]
+        }
+    }
+    else{
+        const seller = [{
+            id: '',
+            first_name:'',
+            last_name: '',
+            mail: '',
+            phone: '',
+            city: ''
+        }]
+        return {
+            seller: seller[0]
+        }
     }
 };
 
 const mapDispatchToProps = {
-    createUser
+    createUser,
+    editUser
 };
 
 

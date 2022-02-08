@@ -1,19 +1,17 @@
-// import { Link } from "react-router-dom";
 import './App.css';
 import { connect } from "react-redux";
-// import { getUserList } from "../actions/UserActions";
 import {Link} from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { getUsersList, sortUsersList } from './ducks/users/actions';
 import { useTranslation } from 'react-i18next';
-import { ErrorMessage, Field, Form, Formik} from "formik";
+import { Field, Form, Formik} from "formik";
 
 const UsersList = ({users, cars, getUsersList, sortUsersList} ) => {
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
-        if (users.length == 0){
+        if (users.length === 0){
             getUsersList()
         }
     })
@@ -51,7 +49,7 @@ const UsersList = ({users, cars, getUsersList, sortUsersList} ) => {
             <h1> {t('sellers')} {t('list')} </h1>
             <div className='user-container'>
             {users && users.map(user => (
-                <Link to={`/sellers/${user.id}`} className='user' style={{textDecoration: 'none',color: "black"}}>
+                <Link key={user.id} to={`/sellers/${user.id}`} className='user' style={{textDecoration: 'none',color: "black"}}>
                     <div>
                         <div>{t('name')}: {user.first_name} {user.last_name} </div>
                         <div>{t('phone')}: {user.phone}</div>
@@ -66,7 +64,7 @@ const UsersList = ({users, cars, getUsersList, sortUsersList} ) => {
             </div>
             <div>
                 <Link to={`/addUser`}><div id="outer">
-                        <div class="button_slide slide_diagonal green">{t('add')} {t('seller')}</div>
+                        <div className="button_slide slide_diagonal green">{t('add')} {t('seller')}</div>
                     </div></Link>
             </div>
         </div>

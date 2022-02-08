@@ -1,37 +1,35 @@
-// import { Link } from "react-router-dom";
 import './App.css';
 import { connect } from "react-redux";
-// import { getUserList } from "../actions/UserActions";
 import { filterCarsList, sortCarsList, getCarsList } from "./ducks/cars/actions";
-import { ErrorMessage, Field, Form, Formik} from "formik";
+import { Field, Form, Formik, ErrorMessage} from "formik";
 import {Link} from "react-router-dom";
-import * as Yup from 'yup';
-import axios from 'axios';
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup'
+import { useState } from 'react';
 
 const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) => {
     
     useEffect(() => {
-        if (cars.length == 0){
+        if (cars.length === 0){
             getCarsList()
         }
     })
 
-        
-    // const makeSet = new Set(cars.map(car => car.make))
-    // const values = makeSet.map(el => el.value)
-    // console.log(makeSet)
-    // console.log(values)
-    // useEffect(() =>{
-    //     console.log(wheel_drive)
-    //     console.log(gearbox)
-    //     console.log(fuel_type)
-    // })
-
-    // const [wheel_drive,setWheelDrive] = useState('');
-    // const [gearbox,setGearbox] = useState('')
-    // const [fuel_type,setFuelType] = useState('')
+    const [wheelDrive,setWheelDrive] = useState('');
+    const [gearbox,setGearbox] = useState('')
+    const [fuelType,setFuelType] = useState('')
+    const [minPrice,setMinPrice] = useState('');
+    const [maxPrice,setMaxPrice] = useState('')
+    const [minProductionYear,setMinProductionYear] = useState('')
+    const [maxProductionYear,setMaxProductionYear] = useState('')
+    const [minMileage,setMinMileage] = useState('');
+    const [maxMileage,setMaxMileage] = useState('')
+    const [minEngineSize,setMinEngineSize] = useState('')
+    const [maxEngineSize,setMaxEngineSize] = useState('')
+    const [minHorsePower,setMinHorsePower] = useState('')
+    const [maxHorsePower,setMaxHorsePower] = useState('')
+    
 
     const filterSchema = Yup.object().shape({
         min_price: Yup.number().min(0).max(99999999),
@@ -46,31 +44,47 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
         max_horse_power: Yup.number().min(0).max(2000)
     })
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+
+    const filterCars = (values) => {
+        setWheelDrive(values.wheel_drive)
+        setGearbox(values.gearbox)
+        setFuelType(values.fuel_type)
+        setMinPrice(values.min_price)
+        setMaxPrice(values.max_price)
+        setMinProductionYear(values.min_production_year)
+        setMaxProductionYear(values.max_production_year)
+        setMinMileage(values.min_mileage)
+        setMaxMileage(values.max_mileage)
+        setMinEngineSize(values.min_engine_size)
+        setMaxEngineSize(values.max_engine_size)
+        setMinHorsePower(values.min_horse_power)
+        setMaxHorsePower(values.max_horse_power)
+    }
 
     return (
         <div className='carslist'>
             <div className="offer-container">
-                {/* <Formik
+                <Formik
                         initialValues= {{
-                            wheel_drive: '',
-                            gearbox: '',
-                            fuel_type:'',
-                            min_price: '',
-                            max_price: '',
-                            min_production_year: '',
-                            max_production_year: '',
-                            min_mileage: '',
-                            max_mileage:'',
-                            min_engine_size:'',
-                            max_engine_size:'',
-                            min_horse_power:'',
-                            max_horse_power:''}}
+                            wheel_drive: wheelDrive,
+                            gearbox: gearbox,
+                            fuel_type: fuelType,
+                            min_price: minPrice,
+                            max_price: maxPrice,
+                            min_production_year: minProductionYear,
+                            max_production_year: maxProductionYear,
+                            min_mileage: minMileage,
+                            max_mileage: maxMileage,
+                            min_engine_size: minEngineSize,
+                            max_engine_size:maxEngineSize,
+                            min_horse_power: minHorsePower,
+                            max_horse_power:maxHorsePower}}
                         validationSchema={filterSchema}
                         enableReinitialize={true}
-                        onSubmit={(values) => {filterCarsList(values)}}
+                        onSubmit={(values) => {filterCarsList(values); filterCars(values)}}
                         >
-                        <Form>
+                        <Form className='filter-form'>
                             <div className='car-filters'>
                                 <h2>Filters: </h2>
                                 <div className="fields-container">
@@ -165,7 +179,7 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                                 </button>
                             </div>
                         </Form>
-                    </Formik> */}
+                    </Formik>
                     <Formik
                         initialValues= {{
                             filter: '',
@@ -174,10 +188,10 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                         enableReinitialize={true}
                         onSubmit={(values) => {sortCarsList(values)}}
                         >
-                        <Form>
-                        <div className='car-filters'>
+                        <Form className='filter-form'>
+                        <div className='car-sort'>
                                 <div className="formik-select">
-                                {t('sort')}
+                                <h2>{t('sort')}</h2>
                                     <div>
                                         <Field className="user-details-sort" name="filter" as="select">
                                             <option value="title">A-Z</option>
@@ -198,24 +212,25 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                     </Form>
                     </Formik>
                 <h1> {t('cars')} {t('list')}  <Link to={`/addOffer`}><div id="outer">
-                        <div class="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
+                        <div className="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
                     </div></Link></h1>
                 {cars && cars.map(car => (
-                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}}>
-                    <div key={car.id} className="offer">
+                    <div key={car.id} >
+                    <div className="offer">
+                        <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="offer-photo">
                         
-                        <div key={car.id} className="offer-photo">
                             <div className="car-title">
                                 {car.title} 
                             </div>
-                            <div className='photo'>
-                                <img className="car-img" src={car.image_url} alt="car"></img>
+                            <div className='photo'>{car.image_url ? 
+                    <img className="big-img" src={car.image_url} alt="car"></img> :
+                    <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
                             </div>
                             <div className="price">
                                 {car.price}PLN
                             </div>
-                        </div>
-                        <div className="spec-container-list">
+                        </Link>
+                        <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="spec-container-list">
                             <div className="car-spec">
                                 <div>{t('year')}<div> {car.production_year} </div></div>
                                 <div>{t('mileage')}<div> {car.mileage}km </div></div>
@@ -223,7 +238,7 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                                 <div>{t('gearbox')}<div> {car.gearbox} </div></div>
                                 <div>{t('power')}<div>{car.horse_power}HP </div></div>
                             </div>
-                        </div>
+                        </Link>
                         { sellers.length > 0 && car.owner_id && <Link to={`/sellers/${car.owner_id}`} className='offer-contact' style={{textDecoration: 'none',color: "white"}} >
                             <div>
                                 <div>{t('seller')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].first_name}
@@ -237,8 +252,8 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                         </Link>}
                        
                     </div>
-                    </Link>))}
                     
+                    </div>))}
             </div>
         </div>
     )

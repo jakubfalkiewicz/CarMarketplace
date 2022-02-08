@@ -30,5 +30,6 @@
     "last_name": "Apellido",
     "number": "Número de coches",
     "back": "Volver",
-    "submit": "Enviar"
+    "submit": "Enviar",
+    "change": "Cambiar"
 }

@@ -1,14 +1,14 @@
 import { Field, Form, Formik, ErrorMessage } from "formik"
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { createCar, editCar } from "./ducks/cars/actions";
 import * as Yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { t } from "i18next";
 
 const CarEdit = ({car, createCar, editCar, seller},props) => {
 
+    window.scrollTo(0, 0)
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
     const reformed = today.toISOString();
@@ -32,7 +32,7 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
         production_year: Yup.number().min(1900, 'Production year cannot be lower than 1900!').max(2022, 'Production year cannot be higher than year 2022!').required('Production year required!').integer('The value has to be integer'),
         mileage: Yup.number().max(9999999, 'Mileage cannot be higher than 9999999km!').required('Mileage required!').positive('The value has to be positive!').integer('The value has to be integer!'),
         fuel_type: Yup.string().required('Fuel type required!'),
-        engine_size: Yup.number().max(10000, 'Engine size cannot be higher than 10000!').required('Engine size required!').positive('The value has to be positive!').integer('The value has to be integer!'),
+        engine_size: Yup.number().min(0, 'Engine size cannot be smaller than 0cm³!').max(10000, 'Engine size cannot be higher than 10000!').required('Engine size required!').integer('The value has to be integer!'),
         horse_power: Yup.number().max(2000, 'Horse power cannot be higher than 2000!').required('Horse power required!').positive('The value has to be positive!').integer('The value has to be integer!'),
         wheel_drive: Yup.string().required('Wheel drive required!'),
         gearbox: Yup.string().required('Gearbox required!'),
@@ -72,18 +72,18 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
                         <Form>
                             <div className="car-form">
                                 <div>
-                                    <label for="title">{t('title')}</label>
-                                    <Field className="form-input" name="title" type="text" maxlength="30"  placeholder="Title"/>
+                                    <div>{t('title')}</div>
+                                    <Field className="form-input" name="title" type="text" maxLength="30"  placeholder="Title"/>
                                     <ErrorMessage className="error-message" name="title" component="div"/>
                                 </div>
                                 <div>
-                                    <label for="make">{t('make')}</label>
-                                    <Field className="form-input" name="make" type="text" maxlength="20"  placeholder="Make"/>
+                                    <div>{t('make')}</div>
+                                    <Field className="form-input" name="make" type="text" maxLength="20"  placeholder="Make"/>
                                     <ErrorMessage className="error-message" name="make" component="div"/>
                                 </div>
                                 <div>
-                                    <label for="model">{t('model')}</label>
-                                    <Field className="form-input" name="model" type="text" maxlength="20" placeholder="Model"/>
+                                    <div>{t('model')}</div>
+                                    <Field className="form-input" name="model" type="text" maxLength="20" placeholder="Model"/>
                                     <ErrorMessage className="error-message" name="model" component="div"/>
                                 </div>
                                 <div>
@@ -114,7 +114,7 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
                                     <ErrorMessage className="error-message" name="fuel_type" component="div"/>
                                 </div>
                                 <div>
-                                    <div>{t('engine_size')}</div>
+                                    <div>{t('engine_size')} (cm³)</div>
                                     <Field className="form-input" name="engine_size" type="number" min="0" max="10000" placeholder="Engine size"/>
                                     <ErrorMessage className="error-message" name="engine_size" component="div"/>
                                 </div>
@@ -144,7 +144,7 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
                                 </div>
                                 <div>
                                     <div>Vin</div>
-                                    <Field className="form-input" name="vin" type="text"  minLength="17" maxlength="17" placeholder="Vin"/>
+                                    <Field className="form-input" name="vin" type="text"  minLength="17" maxLength="17" placeholder="Vin"/>
                                     <ErrorMessage className="error-message" name="vin" component="div"/>
                                 </div>
                                 <div>
@@ -154,7 +154,7 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
                                 </div>
                                 <div>
                                     <div>{t('description')} (optional)</div>
-                                    <Field as="textarea" className="form-input" name="description" type="text" maxlength="255" placeholder="Description" rows="4" cols="50"/>
+                                    <Field as="textarea" className="form-input" name="description" type="text" maxLength="255" placeholder="Description" rows="4" cols="50"/>
                                     <ErrorMessage className="error-message" name="description" component="div"/>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ const CarEdit = ({car, createCar, editCar, seller},props) => {
                             </button>
                         </Form>
                     </Formik>
-                    <Link to="/cars"><button>Back to {t('list')}</button></Link>
+                    <button onClick={() => window.history.back()}>{t('back')}</button>
                 </div>
             </div>
         </div>

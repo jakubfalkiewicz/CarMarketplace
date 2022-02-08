@@ -30,5 +30,6 @@
     "last_name": "Last name",
     "number": "Number of cars",
     "back": "Back",
-    "submit": "Submit"
+    "submit": "Submit",
+    "change": "Change"
 }

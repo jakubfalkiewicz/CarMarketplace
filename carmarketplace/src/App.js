@@ -51,61 +51,58 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Switch>
-        <div className='wrapper'>
-          <div className='header-container'>
-            <header className="header">
-              <div className='header-left'>
-                <div className='logo'></div>
-                <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div className='market'>
-                  CarMarket
-                </div></Link>
-              </div>
-              
-              <div className='navbar'>
-                <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div>{t('cars')}</div></Link>
-                <Link to="/sellers" style={{textDecoration: 'none',color: "white"}}><div>{t('sellers')}</div></Link>
-                <button onClick={() => changeLanguage('pl')}>ENG</button>
-                <button onClick={() => changeLanguage('es')}>ES</button>
-              </div>
-            </header>
-          </div>
-          
-          <div className='cont'>
-            <div className='content'>
-            <Redirect exact from="/" to="/cars"/>
-            <Route path="/cars" exact>
-              <CarsList/>
-            </Route>
-            <Route path="/cars/:id" exact>
-              <CarDetails/>
-            </Route>
-            <Route path="/cars/:id/edit" exact>
-              <CarEdit/>
-            </Route>
-            <Route path="/sellers" exact>
-              <UsersList/>
-            </Route>
-            <Route path="/addUser" exact>
-              <UserCreate/>
-            </Route>
-            <Route path="/addOffer" exact>
-              <CarEdit/>
-            </Route>
-            <Route path="/sellers/:id" exact>
-              <UserDetails/>
-            </Route>
-            <Route path="/sellers/:id/addOffer" exact>
-              <CarEdit/>
-            </Route>
-            <Route path="/sellers/:id/edit" exact>
-              <UserCreate/>
-            </Route>
+        <div>
+          <div className='wrapper'>
+            <div className='header-container'>
+              <header className="header">
+                <div className='header-left'>
+                  <div className='logo'></div>
+                  <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div className='market'>
+                    CarMarket
+                  </div></Link>
+                </div>
+                <div className='navbar'>
+                  <Link to="/cars" style={{textDecoration: 'none',color: "white"}}><div>{t('cars')}</div></Link>
+                  <Link to="/sellers" style={{textDecoration: 'none',color: "white"}}><div>{t('sellers')}</div></Link>
+                  <button onClick={() => changeLanguage('pl')}>ENG</button>
+                  <button onClick={() => changeLanguage('es')}>ES</button>
+                </div>
+              </header>
+            </div>
+            <div className='cont'>
+              <Switch className='content'>
+                <Redirect exact from="/" to="/cars"/>
+                <Route path="/cars" exact>
+                  <CarsList/>
+                </Route>
+                <Route path="/cars/:id" exact>
+                  <CarDetails/>
+                </Route>
+                <Route path="/cars/:id/edit" exact>
+                  <CarEdit/>
+                </Route>
+                <Route path="/sellers" exact>
+                  <UsersList/>
+                </Route>
+                <Route path="/addUser" exact>
+                  <UserCreate/>
+                </Route>
+                <Route path="/addOffer" exact>
+                  <CarEdit/>
+                </Route>
+                <Route path="/sellers/:id" exact>
+                  <UserDetails/>
+                </Route>
+                <Route path="/sellers/:id/addOffer" exact>
+                  <CarEdit/>
+                </Route>
+                <Route path="/sellers/:id/edit" exact>
+                  <UserCreate/>
+                </Route>
+              </Switch>
             </div>
           </div>
         </div>
-        
-        </Switch>
         <footer className="footer">
           <div>
             Tel: 999888777

@@ -71,28 +71,36 @@ export const editCar = (car) => {
 }
 
 export const deleteCar = (car) => {
-    console.log(car)
     return async dispatch => {
         const response = await axios.delete(`http://localhost:5000/api/cars/${car.id}`);
         const carToDelete = response.data
-        console.log(carToDelete)
         dispatch(deleteCarAction(carToDelete))
     }
 }
 
 
 export const filterCarsList = (filters) => {
-    // console.log(filters.gearbox)
-    // console.log(filters.wheel_drive)
-    // console.log(filters.fuel_type)
-    // console.log(filters.min_price)
-    // console.log(filters.max_price)
     return async dispatch => {
         const response = await axios.get('http://localhost:5000/api/cars/');
         const cars = response.data
-        const gearbox_filter = cars.filter(car => car.gearbox === filters.gearbox)
-        // const wheel_drive_filter = cars.filter(car => car.wheel_drive === filters.wheel_drive)
-        dispatch(filterCarsListAction(gearbox_filter))
+        const wheelDriveFilter = filters.wheel_drive ? cars.filter(car => car.wheel_drive === filters.wheel_drive) : cars
+        const gearboxFilter = filters.gearbox ? cars.filter(car => car.gearbox === filters.gearbox) : cars
+        const fuelTypeFilter  = filters.fuel_type ? cars.filter(car => car.fuel_type === filters.fuel_type) : cars
+        const minPriceFilter = filters.min_price ? cars.filter(car => filters.min_price < car.price) : cars
+        const maxPriceFilter = filters.max_price ? cars.filter(car => filters.max_price > car.price) : cars
+        const minProductionYearFilter = filters.min_production_year ? cars.filter(car => filters.min_production_year < car.production_year) : cars
+        const maxProductionYearFilter = filters.max_production_year ? cars.filter(car => filters.max_production_year > car.production_year) : cars
+        const minMileageFilter = filters.min_mileage ? cars.filter(car => filters.min_mileage < car.mileage) : cars
+        const maxMileageFilter = filters.max_mileage ? cars.filter(car => filters.max_mileage > car.mileage) : cars
+        const minEngineSizeFilter = filters.min_engine_size ? cars.filter(car => filters.min_engine_size < car.engine_size) : cars
+        const maxEngineSizeFilter = filters.max_engine_size ? cars.filter(car => filters.max_engine_size > car.engine_size) : cars
+        const minHorsePowerFilter = filters.min_horse_power ? cars.filter(car => filters.min_horse_power < car.horse_power) : cars
+        const maxHorsePowerFilter = filters.max_horse_power ? cars.filter(car => filters.max_horse_power > car.horse_power) : cars
+        const filteredArray = gearboxFilter.filter(car => (wheelDriveFilter.includes(car) && fuelTypeFilter.includes(car) && minPriceFilter.includes(car)
+        && maxPriceFilter.includes(car) && minProductionYearFilter.includes(car) && maxProductionYearFilter.includes(car) && minMileageFilter.includes(car)
+        && maxMileageFilter.includes(car) && minEngineSizeFilter.includes(car) && maxEngineSizeFilter.includes(car) && minHorsePowerFilter.includes(car) && maxHorsePowerFilter.includes(car)));
+        if(filteredArray.length === 0){alert("There is no such car in database")}
+        dispatch(filterCarsListAction(filteredArray))
     }
 }
 

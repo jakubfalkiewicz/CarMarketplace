@@ -1,18 +1,26 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { deleteUser, deleteUserAction } from "./ducks/users/actions";
-import { sortCarsList } from "./ducks/cars/actions";
-import { ErrorMessage, Field, Form, Formik} from "formik";
-import axios from "axios";
+import { deleteUser} from "./ducks/users/actions";
+import { deleteCar, sortCarsList } from "./ducks/cars/actions";
+import { Field, Form, Formik} from "formik";
 import { useTranslation } from 'react-i18next';
 
-const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteUserAction}, props) => {
-    const { t, i18n } = useTranslation();
+const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteCar}, props) => {
+    const { t } = useTranslation();
+
+    window.scrollTo(0, 0)
+
+    const handleUserDelete = (values) => {
+        userCars.map(el =>  deleteCar(el))
+        deleteUser(values)
+        return window.history.back()
+    }
 
     return  (
         
         <div className="body-width">
+            {user &&
             <div className="user-details-container">
             
                 <h2>{t('seller')}:</h2>
@@ -21,11 +29,11 @@ const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteUser
                         <Link to={`/sellers/${user[0].id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
                     </div>
                     <div id="outer">
-                        <div onClick={() => {deleteUserAction(user[0]); window.history.back()}} className="button_slide slide_diagonal red">{t('delete')}</div>
+                        <div onClick={() => handleUserDelete(user[0])} className="button_slide slide_diagonal red">{t('delete')}</div>
                     </div>
                 </div>
                 {user && user.map(el =>
-                <div className="user-info">
+                <div key={el.id} className="user-info">
                     <div>
                         <div>{el.first_name} {el.last_name}</div>
                         <div>{el.mail}</div>
@@ -36,8 +44,9 @@ const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteUser
                 </div>)}
                 <div className="iframe">
                     <iframe
-                            frameBorder="0"
-                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${user[0].city}`} allowFullScreen>
+                        title="map"
+                        frameBorder="0"
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${user[0].city}`} allowFullScreen>
                     </iframe>
                 </div>
                 <h2>{t('cars')}:</h2>
@@ -75,45 +84,51 @@ const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteUser
                 <div className="user-offers">
                 {userCars && userCars.map(car => (
                     
-                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="offer">
-                        <div key={car.id} className="offer-photo">
-                            <div className="car-title">
-                                {car.title} 
-                            </div>
-                            <div className='photo'>
-                                <img className="car-img" src={car.image_url} alt="car"></img>
-                            </div>
+                <div key={car.id} className="offer">
+                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="offer-photo">
+                        
+                        <div className="car-title">
+                            {car.title} 
+                        </div>
+                        <div className='photo'>{car.image_url ? 
+                    <img className="big-img" src={car.image_url} alt="car"></img> :
+                    <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
                         </div>
                         <div className="price">
-                                {car.price}PLN
-                            </div>
-                        <div className="spec-container-list">
-                            <div className="car-spec">
-                                <div>{t('year')}<div> {car.production_year} </div></div>
-                                <div>{t('mileage')}<div> {car.mileage}km </div></div>
-                                <div>{t('fuel')}<div> {car.fuel_type} </div></div>
-                                <div>{t('gearbox')}<div> {car.gearbox} </div></div>
-                                <div>{t('power')}<div>{car.horse_power}HP </div></div>
-                            </div>
-                        </div>
-                        <div className="buttons-container">
-                            <div id="outer">
-                                <Link to={`/cars/${car.id}/edit`}><div class="button_slide slide_diagonal blue">{t('edit')}</div></Link>
-                            </div>
-                            <div id="outer">
-                                <div class="button_slide slide_diagonal red">{t('delete')}</div>
-                            </div>
+                            {car.price}PLN
                         </div>
                     </Link>
+                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="spec-container-list">
+                        <div className="car-spec">
+                            <div>{t('year')}<div> {car.production_year} </div></div>
+                            <div>{t('mileage')}<div> {car.mileage}km </div></div>
+                            <div>{t('fuel')}<div> {car.fuel_type} </div></div>
+                            <div>{t('gearbox')}<div> {car.gearbox} </div></div>
+                            <div>{t('power')}<div>{car.horse_power}HP </div></div>
+                        </div>
+                    </Link>
+                        <div className="buttons-container">
+                            <div id="outer">
+                                <Link to={`/cars/${car.id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
+                            </div>
+                            <div id="outer">
+                                <div onClick={() => deleteCar(car)} className="button_slide slide_diagonal red">{t('delete')}</div>
+                            </div>
+                        </div>
+                </div>
                     ))}
 
                 </div>
                 <div>
-                <Link to={`/sellers/${user[0].id}/addOffer`}><div id="outer">
-                        <div class="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
-                    </div></Link>
+                    <Link to={`/sellers/${user[0].id}/addOffer`}>
+                        <div id="outer">
+                            <div className="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
+                        </div>
+                    </Link>
+                    <button onClick={() => window.history.back()}>{t('back')}</button>
                 </div>
-            </div>
+                
+            </div>}
         </div>
         
     )
@@ -131,9 +146,9 @@ const mapStateToProps =  (state,props) => {
 };
 
 const mapDispatchToProps = {
+    deleteCar,
     deleteUser,
-    sortCarsList,
-    deleteUserAction
+    sortCarsList
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserDetails))

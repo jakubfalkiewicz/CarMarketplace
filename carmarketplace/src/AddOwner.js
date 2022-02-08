@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addOwnerAction,editCar } from "./ducks/cars/actions";
+import { editCar } from "./ducks/cars/actions";
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 
+const AddOwner = ({editCar, users, car}, props) => {
 
-const AddOwner = ({addOwnerAction, editCar, users, car}, props) => {
+    const { t } = useTranslation();
 
     const [seller,setSeller] = useState('')
 
@@ -24,8 +26,8 @@ const AddOwner = ({addOwnerAction, editCar, users, car}, props) => {
                     </div>))}
                 </div>
                 <div className="chosen">{seller && <div>Chosen: {seller.first_name} {seller.last_name}</div>}</div>
-                <button onClick={() => editCar({...car,owner_id: seller.id})}> Add owner </button>
-                <Link to="/cars"><button>Back to List</button></Link>
+                <button onClick={() => editCar({...car,owner_id: seller.id})}> Set owner </button>
+                <Link to="/cars"><button>{t('back')}</button></Link>
             </div>
         </div>
     )
@@ -38,7 +40,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    addOwnerAction,
     editCar
 };
 

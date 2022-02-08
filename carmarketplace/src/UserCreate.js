@@ -1,14 +1,12 @@
 import { Field, Form, Formik, ErrorMessage } from "formik"
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { createUser, editUser } from "./ducks/users/actions";
 import * as Yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
 const UserCreate = ({createUser, seller, editUser},props) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
@@ -54,12 +52,12 @@ const UserCreate = ({createUser, seller, editUser},props) => {
                         <Form>
                             <div className="car-form">
                                 <div>
-                                    <label for="first_name">{t('first_name')}</label>
+                                    <div>{t('first_name')}</div>
                                     <Field className="form-input" name="first_name" type="text" maxLength="30" placeholder="First name"/>
                                     <ErrorMessage className="error-message" name="first_name" component="div"/>
                                 </div>
                                 <div>
-                                    <label for="last_name">{t('last_name')}</label>
+                                    <div>{t('last_name')}</div>
                                     <Field className="form-input" name="last_name" type="text" maxLength="30" placeholder="Last name"/>
                                     <ErrorMessage className="error-message" name="last_name" component="div"/>
                                 </div>
@@ -84,7 +82,7 @@ const UserCreate = ({createUser, seller, editUser},props) => {
                             </button>
                         </Form>
                     </Formik>
-                    <Link to="/sellers"><button>{t('back')}</button></Link>
+                    <button onClick={() => window.history.back()}>{t('back')}</button>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import carsReducer from './ducks/cars/reducers';
 import usersReducer from './ducks/users/reducers'
-import logger from './middlewares/Logger'
+import logger from 'redux-logger'
 
 const store = createStore(
   combineReducers(
@@ -28,7 +28,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
 reportWebVitals();

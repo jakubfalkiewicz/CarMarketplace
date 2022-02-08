@@ -1,0 +1,76 @@
+[
+	{
+		"id": 1,
+		"first_name": "Pablo",
+		"last_name": "Jumper",
+		"mail": "pawelj@example.com",
+		"phone": "+48123456789",
+		"city": "Gdańsk al. Grunwaldzka"
+	},
+	{
+		"id": 2,
+		"first_name": "Jan",
+		"last_name": "Kowalski",
+		"mail": "kowalskij@example.com",
+		"phone": "+48123456789",
+		"city": "Gdynia Orłowo"
+	},
+	{
+		"id": 3,
+		"first_name": "Anna",
+		"last_name": "Nowak",
+		"mail": "annaj@example.com",
+		"phone": "+48123456789",
+		"city": "Sopot Armii Krajowej"
+	},
+	{
+		"id": 4,
+		"first_name": "Jamal",
+		"last_name": "Johnson",
+		"mail": "jamalj@example.com",
+		"phone": "+48123456789",
+		"city": "Wejcherowo śmiechowo"
+	},
+	{
+		"id": 5,
+		"first_name": "Siergiej",
+		"last_name": "Yarmolenko",
+		"mail": "siergiejj@example.com",
+		"phone": "+48123456789",
+		"city": "Gdynia Redłowo"
+	},
+	{
+		"id": 6,
+		"first_name": "Adam",
+		"last_name": "Mały",
+		"mail": "adamm@example.com",
+		"phone": "+48123456789",
+		"city": "Reda"
+	},
+	{
+		"id": 7,
+		"first_name": "Mariusz",
+		"last_name": "Pudzian",
+		"mail": "mariuszp@example.com",
+		"phone": "+48123456789",
+		"city": "UG"
+	},
+	{
+		"id": 8,
+		"first_name": "Marcin",
+		"last_name": "Brzęczyszczykiewicz",
+		"mail": "mbrzeczyszcz@example.com",
+		"phone": "+12345678990",
+		"city": "Gdańsk Jelitkowo",
+		"upload_date": "2022-01-09T22:48:16.238Z"
+	},
+	{
+		"id": 9,
+		"first_name": "Emil",
+		"last_name": "Bober",
+		"mail": "ebober@example.com",
+		"phone": "+12345678901",
+		"city": "Gdańsk Wrzeszcz",
+		"upload_date": "2022-01-13T14:47:57.110Z"
+	}
+]

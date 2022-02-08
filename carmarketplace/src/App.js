@@ -16,6 +16,7 @@ import i18next from 'i18next';
 import { initReactI18next, useTranslation } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import languages from './config/languages';
+import Storer from './Storer';
 
 const language = languages.find(value => value === localStorage.getItem('language'));
 
@@ -70,6 +71,7 @@ function App() {
               </header>
             </div>
             <div className='cont'>
+              <Storer/>
               <Switch className='content'>
                 <Redirect exact from="/" to="/cars"/>
                 <Route path="/cars" exact>

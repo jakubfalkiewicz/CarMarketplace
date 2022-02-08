@@ -50,49 +50,54 @@ const CarDetails = ({owner, car,cars, deleteCar}, props) => {
                 </div>
             </div>))}
         
-        {owner && 
-            <div className="user-info">
-                
-                <Link to={`/sellers/${owner.id}`} className="user-info-data" style={{textDecoration: 'none',color: "white"}} >
+        {owner && owner.map(el => (
+            <div key={el.id} className="user-info">
+                <Link to={`/sellers/${el.id}`} className="user-info-data link" >
                     <div className="section">{t('contact')}</div>
-                    <div>{owner.first_name} {owner.last_name}</div>
-                    <div>{owner.mail}</div>
-                    <div>{owner.phone}</div>
-                    <div>{owner.city}</div>
+                    <div>{el.first_name} {el.last_name}</div>
+                    <div>{el.mail}</div>
+                    <div>{el.phone}</div>
+                    <div>{el.city}</div>
                 </Link>
-                
-            </div>}
-        {owner && 
-        <div className="iframe">
+            </div>
+        ))
+        }
+        {owner && owner.map(el => (
+        <div key={`${el.mail}`} className="iframe">
             <iframe
                 title="map"
                 frameBorder="0"
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${owner.city}`} allowFullScreen>
+                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD-JHebzH64VmdzTBItbk9TaBReCxjTbjc&q=${el.city}`} allowFullScreen>
             </iframe>
         </div>
+        ))
+        
         }
-        <div className="buttons-container">
+        {car && car.map(el => (
+        <div key={`${el.title}`} className="buttons-container">
             <div id="outer">
-                <Link to={`/cars/${car[0].id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
+                <Link to={`/cars/${el.id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
             </div>
             <div id="outer">
-                <div onClick={() => handleSubmit(car[0])} className="button_slide slide_diagonal red">{t('delete')}</div>
+                <div onClick={() => handleSubmit(el)} className="button_slide slide_diagonal red">{t('delete')}</div>
             </div>
             <button onClick={() => window.history.back()}>{t('back')}</button>
-            {car[0].owner_id === null && 
+            {el.owner_id === null && 
             <div>
                 {display === false && <div className="button_slide slide_diagonal blue" onClick={() => setDisplay(true)}>{t('add')} {t('owner')}</div>}
             </div>
             }
-            {/* {car[0].owner_id !== null && 
+            {el.owner_id !== null && 
             <div>
                 {display === false && <div className="button_slide slide_diagonal blue" onClick={() => setDisplay(true)}>{t('change')} {t('owner')}</div>}
             </div>
-            } */}
+            }
         </div>
-        <div>
+        ))}
+        
+        {/* <div>
             {display === true && car[0].owner_id === null && <div><AddOwner car={car[0]}></AddOwner></div>}
-        </div>
+        </div> */}
     </div>
     )
 }
@@ -101,7 +106,10 @@ const mapStateToProps = (state,props) => {
 
     const id = parseInt(props.match.params.id)
     const car = state.cars.filter(car => car.id === id)
-    const owner = state.users.filter(user => user.id === car[0].owner_id)[0]
+    console.log(car)
+    const owner = state.users.filter(user => user.id === car[0].owner_id)
+    // console.log(car)
+    // console.log(owner)
 
     return {
         owner: owner,

@@ -215,45 +215,48 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                         <div className="button_slide slide_diagonal green">{t('add')} {t('car')}</div>
                     </div></Link></h1>
                 {cars && cars.map(car => (
-                    <div key={car.id} >
-                    <div className="offer">
-                        <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="offer-photo">
-                        
-                            <div className="car-title">
-                                {car.title} 
+                        <div key={car.id} className="offer">
+                            <Link to={`/cars/${car.id}`} className="offer-photo link">
+                                <div className="car-title"> {car.make} {car.model}</div>
+                                
+                                <div className='photo'>{car.image_url ? 
+                                    <img className="big-img" src={car.image_url} alt="car"></img> :
+                                    <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
+                                </div>
+                            </Link>
+                            <div className='list-details'>
+                                <div className="car-info">
+                                    <div className="section flex-start">
+                                        {car.title} 
+                                    </div>
+                                    <Link to={`/cars/${car.id}`} className="spec-container-list link flex-start">
+                                        <div className="car-spec ">
+                                            <div>{car.production_year}</div>
+                                            <div>{car.mileage}km</div>
+                                            <div>{car.fuel_type}</div>
+                                            <div>{car.gearbox}</div>
+                                            <div>{car.horse_power}HP </div>
+                                        </div>
+                                    </Link>
+                                    { sellers.length > 0 && car.owner_id && <Link to={`/sellers/${car.owner_id}`} className='offer-contact link'  >
+                                        {/* <div>
+                                            {sellers.filter(el => el.id === car.owner_id)[0].first_name}
+                                        </div> */}
+                                        <img className="invert" src="https://i.pinimg.com/originals/0f/61/ba/0f61ba72e0e12ba59d30a50295964871.png" alt="map-icon"/>
+                                        {sellers.filter(el => el.id === car.owner_id)[0].city}
+                                        {/* <div>
+                                            {sellers.filter(el => el.id === car.owner_id)[0].phone}
+                                        </div> */}
+                                    </Link>}
+                                    
+                                </div>
+                                <div className="price">
+                                    {car.price}PLN
+                                </div>
+                                
                             </div>
-                            <div className='photo'>{car.image_url ? 
-                    <img className="big-img" src={car.image_url} alt="car"></img> :
-                    <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
-                            </div>
-                            <div className="price">
-                                {car.price}PLN
-                            </div>
-                        </Link>
-                        <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="spec-container-list">
-                            <div className="car-spec">
-                                <div>{t('year')}<div> {car.production_year} </div></div>
-                                <div>{t('mileage')}<div> {car.mileage}km </div></div>
-                                <div>{t('fuel')}<div> {car.fuel_type} </div></div>
-                                <div>{t('gearbox')}<div> {car.gearbox} </div></div>
-                                <div>{t('power')}<div>{car.horse_power}HP </div></div>
-                            </div>
-                        </Link>
-                        { sellers.length > 0 && car.owner_id && <Link to={`/sellers/${car.owner_id}`} className='offer-contact' style={{textDecoration: 'none',color: "white"}} >
-                            <div>
-                                <div>{t('seller')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].first_name}
-                            </div>
-                            <div>
-                                <div>{t('city')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].city}
-                            </div>
-                            <div>
-                                <div>{t('phone')}:</div> {sellers.filter(el => el.id === car.owner_id)[0].phone}
-                            </div>
-                        </Link>}
-                       
-                    </div>
-                    
-                    </div>))}
+                        </div>
+                    ))}
             </div>
         </div>
     )

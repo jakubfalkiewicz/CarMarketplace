@@ -118,12 +118,13 @@
 
 .offer{
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   border-radius: 10px;
   width: 100%;
+  gap: 5px;
   margin-bottom: 15px;
-  align-items: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
   box-shadow: 0 0 5px 1px #00a2ff;
   background: #232526;
   background: -webkit-linear-gradient(to right, #414345, #232526);
@@ -157,8 +158,9 @@
 }
 
 .offer-photo{
-  width: 50%;
-  min-width: 300px;
+  width: 30%;
+  max-width: 300px;
+  min-width: 200px;
 }
 
 .offer-photo > div > img{
@@ -168,6 +170,7 @@
 .photo{
   width: 100%;
   border-radius: 5px;
+  margin-bottom: -4px;
 }
 
 .details-container > .spec-container > .car-spec{
@@ -249,17 +252,7 @@
   width: 100%;
 }
 
-.offer-contact{
-  display: flex;
-  padding: 5px;
-  gap: 10px;
-  margin: 0 5px 5px 5px;
-  border-radius: 5px;
-  flex-wrap: wrap;
-  border: 2px solid white;
-  width: 100%;
-  justify-content: center;
-}
+
 
 .offer-contact:hover{
   border: 3px solid #00a2ff;
@@ -371,7 +364,8 @@
 .price{
   font-size: 20px;
   font-weight: 600;
-  width: 100%;
+  /* position: relative;
+  bottom: -30px; */
   text-shadow: 0 0 5px white,
   0 0 10px #00a2ff,
   0 0 20px #00a2ff,
@@ -393,18 +387,7 @@
   gap:5px;
 }
 
-.spec-container-list{
-  border: 2px solid #00a2ff;
-  margin: 5px;
-  border-radius: 5px;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background: #232526;
-  background: -webkit-linear-gradient(to right, #414345, #232526);
-  background: linear-gradient(to right, #414345, #232526);
-}
+
 
 .car-spec{
   display: flex;
@@ -425,12 +408,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 700;
-  margin: 5px;
 }
 .car-spec > div > div{
   font-weight: 400;
-  margin: 5px;
 }
 
 .car-spec > div:hover{
@@ -571,4 +551,75 @@
 .filter-form{
   display: flex;
   justify-content: center;
+}
+
+.link{
+  text-decoration: none;
+  color: white;
+}
+
+.list-details{
+  display: flex;
+  width: 60%;
+  min-width: 300px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.offer-contact{
+  display: flex;
+  border-radius: 5px;
+  flex-wrap: wrap;
+  border: 2px solid white;
+  width: 97%;
+  align-items: center;
+}
+
+.spec-container-list{
+  border: 2px solid #00a2ff;
+  border-radius: 5px;
+  width: 97%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: #232526;
+  background: -webkit-linear-gradient(to right, #414345, #232526);
+  background: linear-gradient(to right, #414345, #232526);
+}
+
+.car-info{
+  display: flex;
+  gap:5px;
+  width: 100%;
+  min-width: 300px;
+  flex-direction: column;
+}
+
+.invert{
+  width: 30px;
+  height: 30px;
+}
+
+@media (min-width:320px) and (max-width: 768px){
+  .offer{
+    display: flex;
+    justify-content: center;
+  }
+  .offer-photo{
+    width: 100%;
+    max-width: 300px;
+    min-width: 300px;
+  }
+  .price{
+    width: 100%;
+    justify-content: center;
+  }
+  .offer-contact{
+    justify-content: center;
+  }
+  .car-info{
+    align-items: center;
+  }
+
 }

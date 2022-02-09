@@ -118,9 +118,9 @@
 
 .offer{
   display: flex;
-  flex-wrap: wrap;
   border-radius: 10px;
   width: 100%;
+  min-width: 300px;
   gap: 5px;
   margin-bottom: 15px;
   justify-content: flex-start;
@@ -158,7 +158,7 @@
 }
 
 .offer-photo{
-  width: 30%;
+  width: 100%;
   max-width: 300px;
   min-width: 200px;
 }
@@ -203,8 +203,6 @@
 .car-img{
   width: 100%;
 }
-
-
 
 .formik-field {
   max-width: 300px;
@@ -364,8 +362,18 @@
 .price{
   font-size: 20px;
   font-weight: 600;
-  /* position: relative;
-  bottom: -30px; */
+  text-shadow: 0 0 5px white,
+  0 0 10px #00a2ff,
+  0 0 20px #00a2ff,
+  0 0 30px #00a2ff
+}
+
+.price-car-details{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
   text-shadow: 0 0 5px white,
   0 0 10px #00a2ff,
   0 0 20px #00a2ff,
@@ -385,16 +393,25 @@
   flex-direction: column;
   align-items: center;
   gap:5px;
+  width: 100%;
 }
-
-
 
 .car-spec{
   display: flex;
   flex-wrap: wrap;
+  gap: 5px;
   width: 100%;
   justify-content: space-evenly;
   flex-direction: row;
+}
+
+
+.car-spec-details{
+  font-weight: 660;
+}
+.car-spec-details > div{
+  font-weight: 350;
+  color: white;
 }
 
 .details{
@@ -404,14 +421,6 @@
   background: linear-gradient(to right, #414345, #232526);
 }
 
-.car-spec > div{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.car-spec > div > div{
-  font-weight: 400;
-}
 
 .car-spec > div:hover{
   text-shadow: 0 0 5px white,
@@ -425,12 +434,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 70%;
+  width: 100%;
 }
 
 .body-width{
   display: flex;
   justify-content: center;
+  width: 70%;
 }
 
 .car-form-container{
@@ -560,9 +570,10 @@
 
 .list-details{
   display: flex;
-  width: 60%;
+  width: auto;
   min-width: 300px;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
   gap: 5px;
 }
@@ -572,14 +583,14 @@
   border-radius: 5px;
   flex-wrap: wrap;
   border: 2px solid white;
-  width: 97%;
   align-items: center;
+  padding-right: 5px;
 }
 
 .spec-container-list{
   border: 2px solid #00a2ff;
   border-radius: 5px;
-  width: 97%;
+  gap:5px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -591,7 +602,6 @@
 .car-info{
   display: flex;
   gap:5px;
-  width: 100%;
   min-width: 300px;
   flex-direction: column;
 }
@@ -601,25 +611,75 @@
   height: 30px;
 }
 
+.list-details-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.user-offers{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-car{
+  display: flex;
+  flex-direction: column;
+}
+
+.padding-3{
+  padding: 3px;
+}
+
 @media (min-width:320px) and (max-width: 768px){
   .offer{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   .offer-photo{
-    width: 100%;
-    max-width: 300px;
+    max-width: none;
     min-width: 300px;
   }
-  .price{
-    width: 100%;
-    justify-content: center;
-  }
+  
   .offer-contact{
     justify-content: center;
   }
   .car-info{
     align-items: center;
   }
+  .list-details{
+    justify-content: center;
+  }
+  .list-details-container{
+    justify-content: center;
+  }
 
+}
+@media (max-width: 1024px){
+  .list-details{
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+  }
+  .price{
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px){
+  .price{
+    padding-top: 5px;
+    padding-right: 10px;
+  }
+  .car-info{
+    display: flex;
+    align-items: flex-start;
+  }
 }

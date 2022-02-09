@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { deleteCar } from "./ducks/cars/actions";
+import { deleteCar, getCarsList } from "./ducks/cars/actions";
+import { getUsersList } from "./ducks/users/actions";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import AddOwner from "./AddOwner";
@@ -17,6 +18,11 @@ const CarDetails = ({owner, car,cars, deleteCar}, props) => {
         window.history.back()
     }
 
+    window.onload = () => {
+        getUsersList()
+        getCarsList()
+    }
+
     const [display,setDisplay] = useState(false)
     return  (
     <div className="car-details">
@@ -30,21 +36,23 @@ const CarDetails = ({owner, car,cars, deleteCar}, props) => {
                     </div>
                 </div>
                 <div className="spec-container">
-                    <div className="car-spec details">
-                        <div>{t('make')}<div> {car.make} </div></div>
-                        <div>{t('model')}<div> {car.model} </div></div>
-                        <div>{t('year')}<div> {car.production_year} </div></div>
-                        <div>{t('mileage')}<div> {car.mileage}km </div></div>
-                        <div>{t('fuel')}<div> {car.fuel_type} </div></div>
-                        <div>{t('engine_size')}<div> {car.engine_size}cm³ </div></div>
-                        <div>{t('power')}<div>{car.horse_power}HP </div></div>
-                        <div>{t('gearbox')}<div> {car.gearbox} </div></div>
-                        <div>{t('wheel_drive')}<div> {car.wheel_drive} </div></div>
+                    <div className="spec-container">
+                        <div className="car-spec details">
+                            <div className="car-spec-details">{t('make')}<div> {car.make} </div></div>
+                            <div className="car-spec-details">{t('model')}<div> {car.model} </div></div>
+                            <div className="car-spec-details">{t('year')}<div> {car.production_year} </div></div>
+                            <div className="car-spec-details">{t('mileage')}<div> {car.mileage}km </div></div>
+                            <div className="car-spec-details">{t('fuel')}<div> {car.fuel_type} </div></div>
+                            <div className="car-spec-details">{t('engine_size')}<div> {car.engine_size}cm³ </div></div>
+                            <div className="car-spec-details">{t('power')}<div>{car.horse_power}HP </div></div>
+                            <div className="car-spec-details">{t('gearbox')}<div> {car.gearbox} </div></div>
+                            <div className="car-spec-details">{t('wheel_drive')}<div> {car.wheel_drive} </div></div>
+                        </div>
                     </div>
                     <div className="description details">
                         <div>{t('description')}<div>{car.description}</div></div>
                     </div>
-                    <div className="price details margin">
+                    <div className="details margin price-car-details" >
                         {t('price')} - {car.price}PLN
                     </div>
                 </div>
@@ -87,11 +95,11 @@ const CarDetails = ({owner, car,cars, deleteCar}, props) => {
                 {display === false && <div className="button_slide slide_diagonal blue" onClick={() => setDisplay(true)}>{t('add')} {t('owner')}</div>}
             </div>
             }
-            {el.owner_id !== null && 
+            {/* {el.owner_id !== null && 
             <div>
                 {display === false && <div className="button_slide slide_diagonal blue" onClick={() => setDisplay(true)}>{t('change')} {t('owner')}</div>}
             </div>
-            }
+            } */}
         </div>
         ))}
         
@@ -119,7 +127,9 @@ const mapStateToProps = (state,props) => {
 };
 
 const mapDispatchToProps = {
-    deleteCar
+    deleteCar,
+    getCarsList,
+    getUsersList
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarDetails))

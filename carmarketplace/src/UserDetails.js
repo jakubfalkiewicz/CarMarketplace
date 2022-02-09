@@ -59,7 +59,7 @@ const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteCar}
                     onSubmit={(values) => {sortCarsList(values)}}
                     >
                     <Form>
-                        <div className='car-filters'>
+                        <div className='car-sort'>
                                 <div className="formik-select">
                                     {t('sort')}
                                     <div>
@@ -83,39 +83,45 @@ const UserDetails = ({user, userCars, cars, sortCarsList, deleteUser, deleteCar}
                 </Formik>
                 <div className="user-offers">
                 {userCars && userCars.map(car => (
-                    
-                <div key={car.id} className="offer">
-                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="offer-photo">
-                        
-                        <div className="car-title">
-                            {car.title} 
-                        </div>
-                        <div className='photo'>{car.image_url ? 
-                    <img className="big-img" src={car.image_url} alt="car"></img> :
-                    <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
-                        </div>
-                        <div className="price">
-                            {car.price}PLN
-                        </div>
-                    </Link>
-                    <Link to={`/cars/${car.id}`} style={{textDecoration: 'none',color: "white"}} className="spec-container-list">
-                        <div className="car-spec">
-                            <div>{t('year')}<div> {car.production_year} </div></div>
-                            <div>{t('mileage')}<div> {car.mileage}km </div></div>
-                            <div>{t('fuel')}<div> {car.fuel_type} </div></div>
-                            <div>{t('gearbox')}<div> {car.gearbox} </div></div>
-                            <div>{t('power')}<div>{car.horse_power}HP </div></div>
-                        </div>
-                    </Link>
-                        <div className="buttons-container">
-                            <div id="outer">
-                                <Link to={`/cars/${car.id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
+                        <div key={car.id} className="offer">
+                            <Link to={`/cars/${car.id}`} className="offer-photo link">
+                                <div className="car-title"> {car.make} {car.model}</div>
+                                
+                                <div className='photo'>{car.image_url ? 
+                                    <img className="big-img" src={car.image_url} alt="car"></img> :
+                                    <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
+                                </div>
+                            </Link>
+                            <div className='list-details-container'>
+                                <div className='list-details'>
+                                    <div className="car-info">
+                                        <div className="section flex-start">
+                                            {car.title} 
+                                        </div>
+                                        <Link to={`/cars/${car.id}`} className="spec-container-list link flex-start">
+                                            <div className="car-spec ">
+                                                <div>{car.production_year}</div>
+                                                <div>{car.mileage}km</div>
+                                                <div>{car.fuel_type}</div>
+                                                <div>{car.gearbox}</div>
+                                                <div>{car.horse_power}HP </div>
+                                            </div>
+                                        </Link>
+                                        <div className="buttons-container">
+                                            <div id="outer">
+                                                <Link to={`/cars/${car.id}/edit`}><div className="button_slide slide_diagonal blue">{t('edit')}</div></Link>
+                                            </div>
+                                            <div id="outer">
+                                                <div onClick={() => deleteCar(car)} className="button_slide slide_diagonal red">{t('delete')}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="price">
+                                    {car.price}PLN
+                                </div>
                             </div>
-                            <div id="outer">
-                                <div onClick={() => deleteCar(car)} className="button_slide slide_diagonal red">{t('delete')}</div>
-                            </div>
                         </div>
-                </div>
                     ))}
 
                 </div>

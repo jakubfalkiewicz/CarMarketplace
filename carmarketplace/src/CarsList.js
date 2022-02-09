@@ -224,36 +224,37 @@ const CarsList = ({cars, sellers, filterCarsList, sortCarsList, getCarsList}) =>
                                     <img className="big-img" src="https://carmartonline.com.au/uploads/car_no_image.jpg" alt="car"></img>}
                                 </div>
                             </Link>
-                            <div className='list-details'>
-                                <div className="car-info">
-                                    <div className="section flex-start">
-                                        {car.title} 
-                                    </div>
-                                    <Link to={`/cars/${car.id}`} className="spec-container-list link flex-start">
-                                        <div className="car-spec ">
-                                            <div>{car.production_year}</div>
-                                            <div>{car.mileage}km</div>
-                                            <div>{car.fuel_type}</div>
-                                            <div>{car.gearbox}</div>
-                                            <div>{car.horse_power}HP </div>
+                            <div className='list-details-container'>
+                                <div className='list-details'>
+                                    <div className="car-info">
+                                        <div className="section flex-start">
+                                            {car.title} 
                                         </div>
-                                    </Link>
-                                    { sellers.length > 0 && car.owner_id && <Link to={`/sellers/${car.owner_id}`} className='offer-contact link'  >
-                                        {/* <div>
-                                            {sellers.filter(el => el.id === car.owner_id)[0].first_name}
-                                        </div> */}
-                                        <img className="invert" src="https://i.pinimg.com/originals/0f/61/ba/0f61ba72e0e12ba59d30a50295964871.png" alt="map-icon"/>
-                                        {sellers.filter(el => el.id === car.owner_id)[0].city}
-                                        {/* <div>
-                                            {sellers.filter(el => el.id === car.owner_id)[0].phone}
-                                        </div> */}
-                                    </Link>}
-                                    
+                                        <Link to={`/cars/${car.id}`} className="spec-container-list link padding-3">
+                                            <div className="car-spec ">
+                                                <div>{car.production_year}</div>
+                                                <div>{car.mileage}km</div>
+                                                <div>{car.fuel_type}</div>
+                                                <div>{car.gearbox}</div>
+                                                <div>{car.horse_power}HP </div>
+                                            </div>
+                                        </Link>
+                                        { sellers.length > 0 && car.owner_id && <Link to={`/sellers/${car.owner_id}`} className='offer-contact link'  >
+                                            {/* <div>
+                                                {sellers.filter(el => el.id === car.owner_id)[0].first_name}
+                                            </div> */}
+                                            <img className="invert" src="https://i.pinimg.com/originals/0f/61/ba/0f61ba72e0e12ba59d30a50295964871.png" alt="map-icon"/>
+                                            {sellers.filter(el => el.id === car.owner_id)[0].city}
+                                            {/* <div>
+                                                {sellers.filter(el => el.id === car.owner_id)[0].phone}
+                                            </div> */}
+                                        </Link>}
+                                        
+                                    </div>
                                 </div>
                                 <div className="price">
                                     {car.price}PLN
                                 </div>
-                                
                             </div>
                         </div>
                     ))}

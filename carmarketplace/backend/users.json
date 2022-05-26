@@ -5,7 +5,8 @@
 		"last_name": "Jumper",
 		"mail": "pawelj@example.com",
 		"phone": "+48123456789",
-		"city": "Gdańsk al. Grunwaldzka"
+		"city": "Gdańsk al. Grunwaldzka",
+		"upload_date": "2022-01-03T13:47:57.110Z"
 	},
 	{
 		"id": 2,
@@ -13,7 +14,8 @@
 		"last_name": "Kowalski",
 		"mail": "kowalskij@example.com",
 		"phone": "+48123456789",
-		"city": "Gdynia Orłowo"
+		"city": "Gdynia Orłowo",
+		"upload_date": "2022-01-23T13:47:57.110Z"
 	},
 	{
 		"id": 3,
@@ -21,7 +23,8 @@
 		"last_name": "Nowak",
 		"mail": "annaj@example.com",
 		"phone": "+48123456789",
-		"city": "Sopot Armii Krajowej"
+		"city": "Sopot Armii Krajowej",
+		"upload_date": "2022-01-09T22:28:16.238Z"
 	},
 	{
 		"id": 4,
@@ -29,7 +32,8 @@
 		"last_name": "Johnson",
 		"mail": "jamalj@example.com",
 		"phone": "+48123456789",
-		"city": "Wejcherowo śmiechowo"
+		"city": "Wejcherowo śmiechowo",
+		"upload_date": "2022-01-08T22:48:16.238Z"
 	},
 	{
 		"id": 5,
@@ -37,7 +41,8 @@
 		"last_name": "Yarmolenko",
 		"mail": "siergiejj@example.com",
 		"phone": "+48123456789",
-		"city": "Gdynia Redłowo"
+		"city": "Gdynia Redłowo",
+		"upload_date": "2021-01-09T22:48:16.238Z"
 	},
 	{
 		"id": 6,
@@ -45,7 +50,8 @@
 		"last_name": "Mały",
 		"mail": "adamm@example.com",
 		"phone": "+48123456789",
-		"city": "Reda"
+		"city": "Reda",
+		"upload_date": "2022-11-09T22:48:16.238Z"
 	},
 	{
 		"id": 7,
@@ -53,7 +59,8 @@
 		"last_name": "Pudzian",
 		"mail": "mariuszp@example.com",
 		"phone": "+48123456789",
-		"city": "UG"
+		"city": "UG",
+		"upload_date": "2022-01-19T22:48:16.238Z"
 	},
 	{
 		"id": 8,
